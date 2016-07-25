@@ -1,0 +1,38 @@
+@mixin circle-btn($color, $size) {
+	box-sizing: border-box;
+	padding: 5px;
+	height: $size;
+	width: $size;
+	background: #fff;
+	color: #aaa;
+	border: 1px solid #ddd;
+	border-radius: 50%;
+	outline: none;
+	cursor: pointer;
+	transition: 0.2s ease all;
+	&:hover {
+		color: #fff;
+		background-color: transparentize($color, 0.2);
+		border: 1px solid #fff;
+	}
+	&:active {
+		background-color: $color;
+	}
+}
+
+@mixin label-only-radio() {
+	input[type=radio] {
+		display: none;
+		+ label {
+			box-display: border-box;
+			color: #999;
+			cursor: pointer;
+		}
+		+ label:hover {
+			color: #333;
+		}
+		&:checked + label {
+			font-weight: 600;
+		}
+	}
+}
