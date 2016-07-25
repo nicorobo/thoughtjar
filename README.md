@@ -1,1 +1,1 @@
-# project-ideas
+# thoughtjar
