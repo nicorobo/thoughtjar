@@ -30864,7 +30864,7 @@ var thoughts = exports.thoughts = [{
 }, {
 	id: 5,
 	title: "Happy Thinking!",
-	description: "You can use your Thoughtjar to keep track of *project ideas*, stay on top of *homework*, or even as a *shopping list*!",
+	description: "You can use your Thoughtjar to keep track of *project ideas*, stay on top of *homework*, or even as a *shopping list*!\n\nNow you can delete all of the existing *thoughts* to begin fresh!",
 	category: "cat1469482680613",
 	createdOn: Date.now() - 5
 }];
