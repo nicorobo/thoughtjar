@@ -5460,7 +5460,7 @@ module.exports = keys;
 
 },{}],47:[function(require,module,exports){
 /**
- * lodash 4.0.4 (Custom Build) <https://lodash.com/>
+ * lodash (Custom Build) <https://lodash.com/>
  * Build: `lodash modularize exports="npm" -o ./`
  * Copyright jQuery Foundation and other contributors <https://jquery.org/>
  * Released under MIT license <https://lodash.com/license>
@@ -5490,6 +5490,20 @@ function isHostObject(value) {
   return result;
 }
 
+/**
+ * Creates a function that invokes `func` with its first argument transformed.
+ *
+ * @private
+ * @param {Function} func The function to wrap.
+ * @param {Function} transform The argument transform.
+ * @returns {Function} Returns the new function.
+ */
+function overArg(func, transform) {
+  return function(arg) {
+    return func(transform(arg));
+  };
+}
+
 /** Used for built-in method references. */
 var objectProto = Object.prototype;
 
@@ -5503,7 +5517,8 @@ var hasOwnProperty = objectProto.hasOwnProperty;
 var objectCtorString = funcToString.call(Object);
 
 /**
- * Used to resolve the [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/6.0/#sec-object.prototype.tostring)
  * of values.
  */
 var objectToString = objectProto.toString;
@@ -5518,9 +5533,7 @@ var nativeGetPrototype = Object.getPrototypeOf;
  * @param {*} value The value to query.
  * @returns {null|Object} Returns the `[[Prototype]]`.
  */
-function getPrototype(value) {
-  return nativeGetPrototype(Object(value));
-}
+var getPrototype = overArg(nativeGetPrototype, Object);
 
 /**
  * Checks if `value` is object-like. A value is object-like if it's not `null`
@@ -30795,6 +30808,68 @@ var Idea = function (_Component) {
 exports.default = Idea;
 
 },{"moment":51,"react":193,"react-markdown":55}],203:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+var categories = exports.categories = {
+	cat1469482680613: {
+		label: 'Category 1',
+		color: "#1ABC9C",
+		value: "cat1469482680613"
+	},
+	cat1469482688877: {
+		label: 'Category 2',
+		color: "#F1C40F",
+		value: "cat1469482688877"
+	},
+	cat1468028016486: {
+		label: 'Category 3',
+		color: "#9B59B6",
+		value: "cat1468028016486"
+	}
+};
+
+var thoughts = exports.thoughts = [{
+	id: 0,
+	title: "Welcome to your Thoughtjar!",
+	description: "Thoughtjar was created to help you organize ideas and thoughts into categories.",
+	category: "cat1469482680613",
+	createdOn: Date.now()
+}, {
+	id: 1,
+	title: "Creating a Thought",
+	description: "To **create** a thought, press the plus sign at the top of the page.",
+	category: "cat1469482688877",
+	createdOn: Date.now() - 1
+}, {
+	id: 2,
+	title: "Editing and Deleting a Thought",
+	description: "To **edit** a thought, press on the pencil icon in the thought's upper right corner. When you are finished, press on the checkmark icon. \n\nTo **delete** a thought, press on the trash icon in the thought's upper right corner.",
+	category: "cat1469482688877",
+	createdOn: Date.now() - 2
+}, {
+	id: 3,
+	title: "Managing Categories",
+	description: "You can manage your Thoughtjar's categories in the settings menu, activated by clicking on the gear icon in the upper right corner of this page.",
+	category: "cat1469482688877",
+	createdOn: Date.now() - 3
+}, {
+	id: 4,
+	title: "Writing Thoughts",
+	description: "Thoughtjar uses a small subset of features from Markdown, a text-to-HTML conversion tool that makes writing for the web easier!\n\n *Line Break:* To create a line break, hit enter twice.\n\n*Bold:* To make a section of text bold, wrap it in double asterisks. \*\*I'm bold!\*\* becomes **I'm bold!**.\n\n*Emphasis:* To emphasize a section of text, make it italic by wrapping it in single asterisks. \*I'm emphasized!\* becomes *I'm emphasized!*\n\n*Links:* To create a hyperlink from a section of text, wrap the text in brackets and follow it with the URL wrapped in parentheses. \\[Visit MeadowLab](https://meadowlab.io) becomes [Visit MeadowLab](https://meadowlab.io).",
+	category: "cat1468028016486",
+	createdOn: Date.now() - 4
+}, {
+	id: 5,
+	title: "Happy Thinking!",
+	description: "You can use your Thoughtjar to keep track of *project ideas*, stay on top of *homework*, or even as a *shopping list*!",
+	category: "cat1469482680613",
+	createdOn: Date.now() - 5
+}];
+
+},{}],204:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -30816,6 +30891,8 @@ var _ideaForm2 = _interopRequireDefault(_ideaForm);
 var _settings = require('./settings/settings.js');
 
 var _settings2 = _interopRequireDefault(_settings);
+
+var _initial = require('./initial.js');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30841,7 +30918,7 @@ var App = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(App).call(this, props));
 
-		_this.state = { ideas: [], categories: {} };
+		_this.state = { ideas: _initial.thoughts, categories: _initial.categories };
 		return _this;
 	}
 
@@ -30936,7 +31013,7 @@ var App = function (_Component) {
 
 (0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
-},{"./forms/idea-form.js":197,"./idea/idea-list.js":201,"./settings/settings.js":210,"react":193,"react-dom":54}],204:[function(require,module,exports){
+},{"./forms/idea-form.js":197,"./idea/idea-list.js":201,"./initial.js":203,"./settings/settings.js":211,"react":193,"react-dom":54}],205:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30945,7 +31022,7 @@ Object.defineProperty(exports, "__esModule", {
 var palette = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD', '#34495E', '#2C3E50', '#F1C40F', '#F39C12', '#E67E22', '#D35400', '#E74C3C', '#C0392B', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D'];
 exports.default = palette;
 
-},{}],205:[function(require,module,exports){
+},{}],206:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31046,7 +31123,7 @@ var CategoryEdit = function (_Component) {
 
 exports.default = CategoryEdit;
 
-},{"./color-picker.js":207,"react":193}],206:[function(require,module,exports){
+},{"./color-picker.js":208,"react":193}],207:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31118,7 +31195,7 @@ var CategoryItem = function (_Component) {
 
 exports.default = CategoryItem;
 
-},{"react":193}],207:[function(require,module,exports){
+},{"react":193}],208:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31190,7 +31267,7 @@ var ColorPicker = function (_Component) {
 
 exports.default = ColorPicker;
 
-},{"../palette.js":204,"react":193}],208:[function(require,module,exports){
+},{"../palette.js":205,"react":193}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31341,7 +31418,7 @@ function getOptions(cat) {
 	return arr;
 }
 
-},{"../palette.js":204,"./category-edit.js":205,"./category-item.js":206,"react":193}],209:[function(require,module,exports){
+},{"../palette.js":205,"./category-edit.js":206,"./category-item.js":207,"react":193}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31398,7 +31475,7 @@ var SettingsMenu = function (_Component) {
 
 exports.default = SettingsMenu;
 
-},{"./settings-category.js":208,"react":193}],210:[function(require,module,exports){
+},{"./settings-category.js":209,"react":193}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31476,4 +31553,4 @@ var Settings = function (_Component) {
 
 exports.default = Settings;
 
-},{"./settings-menu.js":209,"react":193}]},{},[203]);
+},{"./settings-menu.js":210,"react":193}]},{},[204]);
