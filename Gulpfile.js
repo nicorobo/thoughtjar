@@ -1,15 +1,12 @@
 // Gulpfile.js
 
-var gulp 		= require('gulp');
-var chalk 		= require('chalk');
-var sass 		= require('gulp-sass');
-const minicss		= require('gulp-cssnano');
-const minijs		= require('gulp-uglify');
-const autoprefixer 	= require('gulp-autoprefixer');
-var browserify 	= require('browserify');
-var source 		= require('vinyl-source-stream');
-var buffer		= require('vinyl-buffer');
-var babel 		= require('babelify');
+const gulp 			= require('gulp');
+const chalk 		= require('chalk');
+const sass 			= require('gulp-sass');
+const browserify 	= require('browserify');
+const source 		= require('vinyl-source-stream');
+const buffer		= require('vinyl-buffer');
+const babel 		= require('babelify');
 
 // This task compiles sass into css.
 gulp.task('styles', ()=> {

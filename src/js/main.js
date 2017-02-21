@@ -5,12 +5,7 @@ import IdeaForm from './forms/idea-form.js';
 import Settings from './settings/settings.js';
 import {thoughts, categories} from './initial.js';
 let ideaID = null;
-// Step 1: Have a small form to create and idea.
-// Step 2: Create a list of all ideas.
-// Step 3: Create delete button for ideas.
-// Move form to a modal, activated by clicking icon
-// Create an edit button for ideas
-// Beautify
+
 class App extends Component {
 
 	constructor(props) {
