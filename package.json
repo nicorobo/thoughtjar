@@ -4,7 +4,7 @@
   "description": "A small app to track project ideas.",
   "main": "index.js",
   "scripts": {
-    "deploy": "gh-pages -d ./"
+    "deploy": "gh-pages -d dist"
   },
   "author": "Nick Roberts",
   "license": "ISC",

@@ -1,4 +1,6 @@
-let palette = [
+// palette.js is where the colors for categories live.
+// These colors were borrowed from http://flatuicolors.com/
+const palette = [
   '#1ABC9C',
   '#16A085',
   '#2ECC71',
