@@ -3,13 +3,14 @@ import { render } from 'react-dom';
 import IdeaList from './idea/idea-list.js';
 import IdeaForm from './forms/idea-form.js';
 import Settings from './settings/settings.js';
+import {thoughts, categories} from './initial.js';
 let ideaID = null;
 
 class App extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {ideas: [], categories: {}};
+		this.state = {ideas: thoughts, categories: categories};
 	}
 
 	saveIdeas(ideas) {
