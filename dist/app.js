@@ -31416,12 +31416,6 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 var ideaID = null;
-// Step 1: Have a small form to create and idea.
-// Step 2: Create a list of all ideas.
-// Step 3: Create delete button for ideas.
-// Move form to a modal, activated by clicking icon
-// Create an edit button for ideas
-// Beautify
 
 var App = function (_Component) {
 	_inherits(App, _Component);
