@@ -24,9 +24,7 @@ export default class IdeaForm extends Component {
 	formSubmit() {
 		let {title, description, category} = this.state;
 		let {data, exitEdit} = this.props;
-		if(title && description && category){
-			this.props.onSubmit({id: data.id, title, description, category, createdOn: data.createdOn});
-		}
+		this.props.onSubmit({id: data.id, title, description, category, createdOn: data.createdOn});
 		exitEdit()
 	}
 

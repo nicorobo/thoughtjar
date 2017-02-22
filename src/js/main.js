@@ -35,6 +35,7 @@ class App extends Component {
 	}
 
 	editIdea(idea) {
+		console.log(idea);
 		this.saveIdeas(this.state.ideas.map(i => i.id !== idea.id ? i : idea));
 	}
 

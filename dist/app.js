@@ -30707,9 +30707,7 @@ var IdeaForm = function (_Component) {
 			var data = _props.data;
 			var exitEdit = _props.exitEdit;
 
-			if (title && description && category) {
-				this.props.onSubmit({ id: data.id, title: title, description: description, category: category, createdOn: data.createdOn });
-			}
+			this.props.onSubmit({ id: data.id, title: title, description: description, category: category, createdOn: data.createdOn });
 			exitEdit();
 		}
 	}, {
@@ -30847,8 +30845,9 @@ var IdeaForm = function (_Component) {
 	}, {
 		key: 'openForm',
 		value: function openForm() {
-			var id = this.props.onSubmit("", "", null);
+			var id = this.props.onSubmit("", "", "none");
 			this.props.toggleEdit(id);
+			console.log(id);
 		}
 	}, {
 		key: 'closeForm',
@@ -31525,6 +31524,7 @@ var App = function (_Component) {
 	}, {
 		key: 'editIdea',
 		value: function editIdea(idea) {
+			console.log(idea);
 			this.saveIdeas(this.state.ideas.map(function (i) {
 				return i.id !== idea.id ? i : idea;
 			}));

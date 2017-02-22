@@ -30,8 +30,9 @@ export default class IdeaForm extends Component {
 		}
 	}
 	openForm() {
-		const id = this.props.onSubmit("", "", null);
+		const id = this.props.onSubmit("", "", "none");
 		this.props.toggleEdit(id);
+		console.log(id);
 	}
 
 	closeForm() {
