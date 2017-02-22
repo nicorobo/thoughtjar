@@ -30640,6 +30640,41 @@ exports.uriFragmentInHTMLData = exports.uriComponentInHTMLData;
 exports.uriFragmentInHTMLComment = exports.uriComponentInHTMLComment;
 
 },{}],199:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+var CreateIdeaButton = function CreateIdeaButton(props) {
+	return _react2.default.createElement(
+		"button",
+		{ className: "create-btn", onClick: function onClick() {
+				return createIdea(props);
+			} },
+		_react2.default.createElement("i", { className: "fa fa-plus" })
+	);
+};
+
+function createIdea(props) {
+	var id = props.onSubmit("", "", "none");
+	props.toggleEdit(id);
+}
+
+CreateIdeaButton.propTypes = {
+	onSubmit: _react.PropTypes.func.isRequired,
+	toggleEdit: _react.PropTypes.func.isRequired
+};
+
+exports.default = CreateIdeaButton;
+
+},{"react":196}],200:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -30769,149 +30804,7 @@ var IdeaForm = function (_Component) {
 
 exports.default = IdeaForm;
 
-},{"./input-category.js":201,"react":196}],200:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inputTitle = require('./input-title.js');
-
-var _inputTitle2 = _interopRequireDefault(_inputTitle);
-
-var _inputDescription = require('./input-description.js');
-
-var _inputDescription2 = _interopRequireDefault(_inputDescription);
-
-var _inputCategory = require('./input-category.js');
-
-var _inputCategory2 = _interopRequireDefault(_inputCategory);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var IdeaForm = function (_Component) {
-	_inherits(IdeaForm, _Component);
-
-	function IdeaForm(props) {
-		_classCallCheck(this, IdeaForm);
-
-		var _this = _possibleConstructorReturn(this, (IdeaForm.__proto__ || Object.getPrototypeOf(IdeaForm)).call(this, props));
-
-		_this.state = { active: false, title: "", description: "", category: "none" };
-		return _this;
-	}
-
-	_createClass(IdeaForm, [{
-		key: 'titleChange',
-		value: function titleChange(e) {
-			this.setState({ title: e.target.value });
-		}
-	}, {
-		key: 'descriptionChange',
-		value: function descriptionChange(e) {
-			this.setState({ description: e.target.value });
-		}
-	}, {
-		key: 'categoryChange',
-		value: function categoryChange(e) {
-			this.setState({ category: e.target.value });
-		}
-	}, {
-		key: 'formSubmit',
-		value: function formSubmit() {
-			var _state = this.state;
-			var title = _state.title;
-			var description = _state.description;
-			var category = _state.category;
-
-			if (title) {
-				this.setState({ title: "", description: "" });
-				this.props.onSubmit(title, description, category);
-			}
-		}
-	}, {
-		key: 'openForm',
-		value: function openForm() {
-			var id = this.props.onSubmit("", "", "none");
-			this.props.toggleEdit(id);
-			console.log(id);
-		}
-	}, {
-		key: 'closeForm',
-		value: function closeForm() {
-			this.setState({ active: false });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props = this.props;
-			var categories = _props.categories;
-			var toggleCreate = _props.toggleCreate;
-			var _state2 = this.state;
-			var active = _state2.active;
-			var title = _state2.title;
-			var description = _state2.description;
-			var category = _state2.category;
-
-			if (active) {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'idea-form' },
-					_react2.default.createElement(
-						'form',
-						null,
-						_react2.default.createElement(_inputTitle2.default, { onChange: this.titleChange.bind(this), value: title }),
-						_react2.default.createElement(_inputDescription2.default, { onChange: this.descriptionChange.bind(this), value: description }),
-						_react2.default.createElement(_inputCategory2.default, {
-							prefix: 'form-',
-							onChange: this.categoryChange.bind(this),
-							value: category,
-							categories: Object.assign({}, categories, { 'none': { value: 'none', label: 'None', color: '#333' } }) })
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'btn-set' },
-						_react2.default.createElement(
-							'button',
-							{ className: 'submit-btn', onClick: this.formSubmit.bind(this) },
-							_react2.default.createElement('i', { className: 'fa fa-check' })
-						),
-						_react2.default.createElement(
-							'button',
-							{ className: 'close-btn', onClick: this.closeForm.bind(this) },
-							_react2.default.createElement('i', { className: 'fa fa-close' })
-						)
-					)
-				);
-			} else {
-				return _react2.default.createElement(
-					'button',
-					{ className: 'create-btn', onClick: this.openForm.bind(this) },
-					_react2.default.createElement('i', { className: 'fa fa-plus' })
-				);
-			}
-		}
-	}]);
-
-	return IdeaForm;
-}(_react.Component);
-
-exports.default = IdeaForm;
-
-},{"./input-category.js":201,"./input-description.js":202,"./input-title.js":203,"react":196}],201:[function(require,module,exports){
+},{"./input-category.js":201,"react":196}],201:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31005,124 +30898,6 @@ function getOptions(cat) {
 }
 
 },{"react":196}],202:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DescriptionInput = function (_Component) {
-	_inherits(DescriptionInput, _Component);
-
-	function DescriptionInput() {
-		_classCallCheck(this, DescriptionInput);
-
-		return _possibleConstructorReturn(this, (DescriptionInput.__proto__ || Object.getPrototypeOf(DescriptionInput)).apply(this, arguments));
-	}
-
-	_createClass(DescriptionInput, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props;
-			var value = _props.value;
-			var onChange = _props.onChange;
-
-			return _react2.default.createElement(
-				"div",
-				{ className: "input-group description" },
-				_react2.default.createElement(
-					"label",
-					null,
-					_react2.default.createElement(
-						"span",
-						null,
-						"Description"
-					),
-					_react2.default.createElement("textarea", { rows: 5, value: value, onChange: onChange })
-				)
-			);
-		}
-	}]);
-
-	return DescriptionInput;
-}(_react.Component);
-
-exports.default = DescriptionInput;
-
-},{"react":196}],203:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TitleInput = function (_Component) {
-	_inherits(TitleInput, _Component);
-
-	function TitleInput() {
-		_classCallCheck(this, TitleInput);
-
-		return _possibleConstructorReturn(this, (TitleInput.__proto__ || Object.getPrototypeOf(TitleInput)).apply(this, arguments));
-	}
-
-	_createClass(TitleInput, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props;
-			var value = _props.value;
-			var onChange = _props.onChange;
-
-			return _react2.default.createElement(
-				"div",
-				{ className: "input-group title" },
-				_react2.default.createElement(
-					"label",
-					null,
-					_react2.default.createElement(
-						"span",
-						null,
-						"Title"
-					),
-					_react2.default.createElement("input", { type: "text", value: value, onChange: onChange, autoFocus: true })
-				)
-			);
-		}
-	}]);
-
-	return TitleInput;
-}(_react.Component);
-
-exports.default = TitleInput;
-
-},{"react":196}],204:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31277,7 +31052,7 @@ function getOptions(cat) {
 	return arr;
 }
 
-},{"../forms/idea-edit.js":199,"../forms/input-category.js":201,"./idea.js":205,"react":196}],205:[function(require,module,exports){
+},{"../forms/idea-edit.js":200,"../forms/input-category.js":201,"./idea.js":203,"react":196}],203:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31385,7 +31160,7 @@ var Idea = function (_Component) {
 
 exports.default = Idea;
 
-},{"moment":48,"react":196,"react-markdown":53}],206:[function(require,module,exports){
+},{"moment":48,"react":196,"react-markdown":53}],204:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31447,7 +31222,7 @@ var thoughts = exports.thoughts = [{
 	createdOn: Date.now() - 5
 }];
 
-},{}],207:[function(require,module,exports){
+},{}],205:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -31462,9 +31237,9 @@ var _ideaList = require('./idea/idea-list.js');
 
 var _ideaList2 = _interopRequireDefault(_ideaList);
 
-var _ideaForm = require('./forms/idea-form.js');
+var _createIdeaButton = require('./forms/create-idea-button.js');
 
-var _ideaForm2 = _interopRequireDefault(_ideaForm);
+var _createIdeaButton2 = _interopRequireDefault(_createIdeaButton);
 
 var _settings = require('./settings/settings.js');
 
@@ -31569,9 +31344,8 @@ var App = function (_Component) {
 				_react2.default.createElement(_settings2.default, {
 					saveCategories: this.saveCategories.bind(this),
 					categories: categories }),
-				_react2.default.createElement(_ideaForm2.default, {
+				_react2.default.createElement(_createIdeaButton2.default, {
 					onSubmit: this.createIdea.bind(this),
-					categories: categories,
 					toggleEdit: this.toggleEdit.bind(this) }),
 				_react2.default.createElement(_ideaList2.default, {
 					categories: categories,
@@ -31589,7 +31363,7 @@ var App = function (_Component) {
 
 (0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
-},{"./forms/idea-form.js":200,"./idea/idea-list.js":204,"./initial.js":206,"./settings/settings.js":214,"react":196,"react-dom":52}],208:[function(require,module,exports){
+},{"./forms/create-idea-button.js":199,"./idea/idea-list.js":202,"./initial.js":204,"./settings/settings.js":212,"react":196,"react-dom":52}],206:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31600,7 +31374,7 @@ Object.defineProperty(exports, "__esModule", {
 var palette = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD', '#34495E', '#2C3E50', '#F1C40F', '#F39C12', '#E67E22', '#D35400', '#E74C3C', '#C0392B', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D'];
 exports.default = palette;
 
-},{}],209:[function(require,module,exports){
+},{}],207:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31701,7 +31475,7 @@ var CategoryEdit = function (_Component) {
 
 exports.default = CategoryEdit;
 
-},{"./color-picker.js":211,"react":196}],210:[function(require,module,exports){
+},{"./color-picker.js":209,"react":196}],208:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31773,7 +31547,7 @@ var CategoryItem = function (_Component) {
 
 exports.default = CategoryItem;
 
-},{"react":196}],211:[function(require,module,exports){
+},{"react":196}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31845,7 +31619,7 @@ var ColorPicker = function (_Component) {
 
 exports.default = ColorPicker;
 
-},{"../palette.js":208,"react":196}],212:[function(require,module,exports){
+},{"../palette.js":206,"react":196}],210:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31996,7 +31770,7 @@ function getOptions(cat) {
 	return arr;
 }
 
-},{"../palette.js":208,"./category-edit.js":209,"./category-item.js":210,"react":196}],213:[function(require,module,exports){
+},{"../palette.js":206,"./category-edit.js":207,"./category-item.js":208,"react":196}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32053,7 +31827,7 @@ var SettingsMenu = function (_Component) {
 
 exports.default = SettingsMenu;
 
-},{"./settings-category.js":212,"react":196}],214:[function(require,module,exports){
+},{"./settings-category.js":210,"react":196}],212:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32131,4 +31905,4 @@ var Settings = function (_Component) {
 
 exports.default = Settings;
 
-},{"./settings-menu.js":213,"react":196}]},{},[207]);
+},{"./settings-menu.js":211,"react":196}]},{},[205]);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import IdeaList from './idea/idea-list.js';
-import IdeaForm from './forms/idea-form.js';
+import CreateIdeaButton from './forms/create-idea-button.js';
 import Settings from './settings/settings.js';
 import {thoughts, categories} from './initial.js';
 let ideaID = null;
@@ -69,9 +69,8 @@ class App extends Component {
 				<Settings
 					saveCategories={this.saveCategories.bind(this)}
 					categories={categories} />
-				<IdeaForm
+				<CreateIdeaButton
 					onSubmit={this.createIdea.bind(this)}
-					categories={categories}
 					toggleEdit={this.toggleEdit.bind(this)}/>
 				<IdeaList
 					categories={categories}
