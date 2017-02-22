@@ -1,23 +1,27 @@
-import React, { Component } from 'react';
-import ColorPicker from './color-picker.js';
+import React, { Component, PropTypes } from 'react';
+import ColorPicker from './ColorPicker';
 
 export default class CategoryEdit extends Component {
+
 	constructor(props) {
 		super(props);
 		let {label, color} = props.data;
 		this.state = {label, color};
 	}
+
 	onLabelChange(e) {
 		this.setState({label: e.target.value})
 	}
+
 	onColorChange(color) {
 		this.setState({color: color})
-		console.log(color);
 	}
+
 	finishEdit() {
 		let {label, color} = this.state;
 		this.props.editCategory({label, color, value: this.props.data.value})
 	}
+
 	render() {
 		let {onDelete, data} = this.props;
 		let {label, value, color} = data;
