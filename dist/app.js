@@ -31542,7 +31542,6 @@ var App = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			console.log(window.localStorage);
 			if (!window.localStorage.ideas || !window.localStorage.categories) {
 				this.populateStorage();
 			} else {
