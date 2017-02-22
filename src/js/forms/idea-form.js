@@ -30,8 +30,8 @@ export default class IdeaForm extends Component {
 		}
 	}
 	openForm() {
-		this.setState({active: true});
-
+		const id = this.props.onSubmit("", "", null);
+		this.props.toggleEdit(id);
 	}
 
 	closeForm() {

@@ -10,7 +10,7 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {ideas: thoughts, categories: categories};
+		this.state = {ideas: thoughts, categories: categories, editing: -1};
 	}
 
 	saveIdeas(ideas) {
@@ -27,6 +27,7 @@ class App extends Component {
 		ideaID++;
 		window.localStorage.setItem('ideaID', ideaID);
 		this.saveIdeas([{id: ideaID, title, description, category, createdOn: Date.now()}].concat(this.state.ideas));
+		return ideaID;
 	}
 
 	deleteIdea(id) {
@@ -69,10 +70,13 @@ class App extends Component {
 					categories={categories} />
 				<IdeaForm
 					onSubmit={this.createIdea.bind(this)}
-					categories={categories}/>
+					categories={categories}
+					toggleEdit={this.toggleEdit.bind(this)}/>
 				<IdeaList
 					categories={categories}
 					ideas={ideas}
+					editing={editing}
+					toggleEdit={this.toggleEdit.bind(this)}
 					onDelete={this.deleteIdea.bind(this)}
 					onEdit={this.editIdea.bind(this)} />
 			</div>

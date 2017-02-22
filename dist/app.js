@@ -30847,7 +30847,8 @@ var IdeaForm = function (_Component) {
 	}, {
 		key: 'openForm',
 		value: function openForm() {
-			this.setState({ active: true });
+			var id = this.props.onSubmit("", "", null);
+			this.props.toggleEdit(id);
 		}
 	}, {
 		key: 'closeForm',
@@ -31163,7 +31164,7 @@ var IdeaList = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (IdeaList.__proto__ || Object.getPrototypeOf(IdeaList)).call(this, props));
 
-		_this.state = { filter: 'all', editing: -1 };
+		_this.state = { filter: 'all' };
 		return _this;
 	}
 
@@ -31175,12 +31176,12 @@ var IdeaList = function (_Component) {
 	}, {
 		key: 'enterEdit',
 		value: function enterEdit(id) {
-			this.setState({ editing: id });
+			this.props.toggleEdit(id);
 		}
 	}, {
 		key: 'exitEdit',
 		value: function exitEdit() {
-			this.setState({ editing: -1 });
+			this.props.toggleEdit(-1);
 		}
 	}, {
 		key: 'render',
@@ -31191,6 +31192,7 @@ var IdeaList = function (_Component) {
 			var ideas = _props.ideas;
 			var onDelete = _props.onDelete;
 			var onEdit = _props.onEdit;
+			var editing = _props.editing;
 			var categories = _props.categories;
 			var filter = this.state.filter;
 
@@ -31240,7 +31242,7 @@ var IdeaList = function (_Component) {
 							onChange: this.changeFilter.bind(this) })
 					),
 					ideas.map(function (idea) {
-						if (_this2.state.editing === idea.id) {
+						if (editing === idea.id) {
 							return _react2.default.createElement(_ideaEdit2.default, {
 								key: idea.id,
 								data: idea,
@@ -31489,7 +31491,7 @@ var App = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-		_this.state = { ideas: _initial.thoughts, categories: _initial.categories };
+		_this.state = { ideas: _initial.thoughts, categories: _initial.categories, editing: -1 };
 		return _this;
 	}
 
@@ -31511,6 +31513,7 @@ var App = function (_Component) {
 			ideaID++;
 			window.localStorage.setItem('ideaID', ideaID);
 			this.saveIdeas([{ id: ideaID, title: title, description: description, category: category, createdOn: Date.now() }].concat(this.state.ideas));
+			return ideaID;
 		}
 	}, {
 		key: 'deleteIdea',
@@ -31568,10 +31571,13 @@ var App = function (_Component) {
 					categories: categories }),
 				_react2.default.createElement(_ideaForm2.default, {
 					onSubmit: this.createIdea.bind(this),
-					categories: categories }),
+					categories: categories,
+					toggleEdit: this.toggleEdit.bind(this) }),
 				_react2.default.createElement(_ideaList2.default, {
 					categories: categories,
 					ideas: ideas,
+					editing: editing,
+					toggleEdit: this.toggleEdit.bind(this),
 					onDelete: this.deleteIdea.bind(this),
 					onEdit: this.editIdea.bind(this) })
 			);

@@ -6,19 +6,19 @@ import CategoryInput from '../forms/input-category.js';
 export default class IdeaList extends Component {
 	constructor(props) {
 		super(props);
-		this.state = {filter: 'all', editing: -1};
+		this.state = {filter: 'all'};
 	}
 	changeFilter(e) {
 		this.setState({filter: e.target.value});
 	} 
 	enterEdit(id) {
-		this.setState({editing: id});
+		this.props.toggleEdit(id);
 	}
 	exitEdit() {
-		this.setState({editing: -1});
+		this.props.toggleEdit(-1);
 	}
 	render() {
-		let {ideas, onDelete, onEdit, categories} = this.props;
+		let {ideas, onDelete, onEdit, editing, categories} = this.props;
 		let {filter} = this.state;
 		if(filter !== 'all') ideas = ideas.filter(idea => idea.category === filter);
 		if (ideas.length <= 0) {
@@ -47,7 +47,7 @@ export default class IdeaList extends Component {
 							onChange={this.changeFilter.bind(this)} />
 					</div>
 					{ideas.map(idea => {
-						if(this.state.editing === idea.id){
+						if(editing === idea.id){
 							return <IdeaEdit
 								key={idea.id}
 								data={idea}
