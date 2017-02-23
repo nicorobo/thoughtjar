@@ -1,3 +1,14 @@
+@mixin input-style() {
+	border-radius: 5px;
+	color: #333;
+	outline: 0;
+	border: 1px solid #ddd;
+	padding: 0.2em 0.4em;
+	&:focus {
+		border: 1px solid #1eaedb;
+	}
+}
+
 .idea-edit {
 	display: flex;
 	flex-direction: column;
@@ -6,15 +17,16 @@
 	}
 	.title-edit {
 		flex-grow: 1;
-		// border-radius: 5px;
-		color: #333;
-		font-size: 0.9em;
+		@include input-style();
+		font-size: 1em;
 		font-weight: 600;
 		margin: 5px 0;
-		display: inline-block;
 	}
 	.description-edit {
-		color: #333;
+		@include input-style();
+		padding: 0.4em 0.6em;
+		font-weight: 300;
+		font-size: 0.9em;
 		display: block;
 	}
 	.category {

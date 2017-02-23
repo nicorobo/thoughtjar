@@ -31164,7 +31164,13 @@ var IdeaEdit = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'top-section' },
-					_react2.default.createElement('input', { className: 'title-edit', type: 'text', value: title, onChange: this.titleChange.bind(this), autoFocus: true }),
+					_react2.default.createElement('input', {
+						className: 'title-edit',
+						type: 'text',
+						value: title,
+						placeholder: 'Title',
+						onChange: this.titleChange.bind(this),
+						autoFocus: true }),
 					_react2.default.createElement(
 						'div',
 						{ className: 'buttons' },
@@ -31174,6 +31180,7 @@ var IdeaEdit = function (_Component) {
 				),
 				_react2.default.createElement('textarea', {
 					className: 'description-edit',
+					placeholder: 'Description',
 					rows: 5, value: description,
 					onChange: this.descriptionChange.bind(this) }),
 				_react2.default.createElement(_InputCategory2.default, {

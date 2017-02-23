@@ -41,7 +41,13 @@ export default class IdeaEdit extends Component {
 		return (
 			<div style={ideaStyle} className={`idea idea-edit cat-${category}`}>
 				<div className="top-section">
-					<input className="title-edit" type='text' value={title} onChange={this.titleChange.bind(this)} autoFocus/>
+					<input 
+						className="title-edit"
+						type='text'
+						value={title}
+						placeholder="Title"
+						onChange={this.titleChange.bind(this)}
+						autoFocus />
 					<div className="buttons">
 						<i className="fa fa-check fa-fw fa-lg" onClick={this.formSubmit.bind(this)}></i>
 						<i className="fa fa-trash fa-fw fa-lg" onClick={this.onDelete.bind(this)}></i>
@@ -49,6 +55,7 @@ export default class IdeaEdit extends Component {
 				</div>
 				<textarea 
 					className="description-edit"
+					placeholder="Description"
 					rows={5} value={description}
 					onChange={this.descriptionChange.bind(this)}/>
 				<CategoryInput 

@@ -287,14 +287,28 @@
     display: flex; }
   .idea-edit .title-edit {
     flex-grow: 1;
+    border-radius: 5px;
     color: #333;
-    font-size: 0.9em;
+    outline: 0;
+    border: 1px solid #ddd;
+    padding: 0.2em 0.4em;
+    font-size: 1em;
     font-weight: 600;
-    margin: 5px 0;
-    display: inline-block; }
+    margin: 5px 0; }
+    .idea-edit .title-edit:focus {
+      border: 1px solid #1eaedb; }
   .idea-edit .description-edit {
+    border-radius: 5px;
     color: #333;
+    outline: 0;
+    border: 1px solid #ddd;
+    padding: 0.2em 0.4em;
+    padding: 0.4em 0.6em;
+    font-weight: 300;
+    font-size: 0.9em;
     display: block; }
+    .idea-edit .description-edit:focus {
+      border: 1px solid #1eaedb; }
   .idea-edit .category {
     margin-top: 5px; }
     .idea-edit .category input[type=radio] {
