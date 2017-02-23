@@ -280,6 +280,29 @@ body {
   align-items: center;
   justify-content: center; }
 
+.create-btn {
+  box-sizing: border-box;
+  padding: 5px;
+  height: 50px;
+  width: 50px;
+  background: #fff;
+  color: #aaa;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  transition: 0.2s ease all;
+  margin: 15px 0;
+  font-size: 1.2em; }
+  .create-btn:hover {
+    color: #fff;
+    background-color: rgba(26, 188, 156, 0.8);
+    border: 1px solid #fff; }
+  .create-btn:active {
+    background-color: #1ABC9C; }
+  .create-btn i {
+    line-height: 20px; }
+
 @media (max-width: 500px) {
   .jar {
     width: 100%; } }
