@@ -30652,9 +30652,9 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _inputCategory = require('./input-category.js');
+var _ColorPicker = require('./ColorPicker');
 
-var _inputCategory2 = _interopRequireDefault(_inputCategory);
+var _ColorPicker2 = _interopRequireDefault(_ColorPicker);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30664,254 +30664,86 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var IdeaForm = function (_Component) {
-	_inherits(IdeaForm, _Component);
+var CategoryEdit = function (_Component) {
+	_inherits(CategoryEdit, _Component);
 
-	function IdeaForm(props) {
-		_classCallCheck(this, IdeaForm);
+	function CategoryEdit(props) {
+		_classCallCheck(this, CategoryEdit);
 
-		var _this = _possibleConstructorReturn(this, (IdeaForm.__proto__ || Object.getPrototypeOf(IdeaForm)).call(this, props));
+		var _this = _possibleConstructorReturn(this, (CategoryEdit.__proto__ || Object.getPrototypeOf(CategoryEdit)).call(this, props));
 
-		var _props$data = props.data;
-		var title = _props$data.title;
-		var description = _props$data.description;
-		var category = _props$data.category;
-
-		_this.state = { title: title || "", description: description || "", category: category || "" };
+		_this.state = { label: props.label, color: props.color };
 		return _this;
 	}
 
-	_createClass(IdeaForm, [{
-		key: 'titleChange',
-		value: function titleChange(e) {
-			this.setState({ title: e.target.value });
+	_createClass(CategoryEdit, [{
+		key: 'onLabelChange',
+		value: function onLabelChange(e) {
+			this.setState({ label: e.target.value });
 		}
 	}, {
-		key: 'descriptionChange',
-		value: function descriptionChange(e) {
-			this.setState({ description: e.target.value });
+		key: 'onColorChange',
+		value: function onColorChange(color) {
+			this.setState({ color: color });
 		}
 	}, {
-		key: 'categoryChange',
-		value: function categoryChange(e) {
-			this.setState({ category: e.target.value });
-		}
-	}, {
-		key: 'formSubmit',
-		value: function formSubmit() {
+		key: 'finishEdit',
+		value: function finishEdit() {
 			var _state = this.state;
-			var title = _state.title;
-			var description = _state.description;
-			var category = _state.category;
-			var _props = this.props;
-			var data = _props.data;
-			var exitEdit = _props.exitEdit;
+			var label = _state.label;
+			var color = _state.color;
 
-			if (title && description && category) {
-				this.props.onSubmit({ id: data.id, title: title, description: description, category: category, createdOn: data.createdOn });
-			}
-			exitEdit();
+			this.props.editCategory({ label: label, color: color, value: this.props.value });
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
+			var _props = this.props;
+			var onDelete = _props.onDelete;
+			var label = _props.label;
+			var value = _props.value;
+			var color = _props.color;
 
-			var _state2 = this.state;
-			var title = _state2.title;
-			var description = _state2.description;
-			var category = _state2.category;
-			var _props2 = this.props;
-			var data = _props2.data;
-			var categories = _props2.categories;
-			var onDelete = _props2.onDelete;
-
-			var _ref = categories[category] || { color: '#333' };
-
-			var color = _ref.color;
-
-			var ideaStyle = {
-				borderLeftColor: color
-			};
 			return _react2.default.createElement(
-				'div',
-				{ style: ideaStyle, className: 'idea idea-edit cat-' + category },
+				'li',
+				{ style: { borderLeft: '5px solid ' + this.state.color } },
 				_react2.default.createElement(
 					'div',
-					{ className: 'top-section' },
-					_react2.default.createElement('input', { className: 'title-edit', type: 'text', value: title, onChange: function onChange(e) {
-							return _this2.setState({ title: e.target.value });
-						} }),
+					{ className: 'li-container' },
+					_react2.default.createElement('input', {
+						value: this.state.label,
+						className: 'category-label',
+						onChange: this.onLabelChange.bind(this),
+						autoFocus: true }),
 					_react2.default.createElement(
-						'div',
+						'span',
 						{ className: 'buttons' },
-						_react2.default.createElement('i', { className: 'fa fa-check fa-fw fa-lg', onClick: this.formSubmit.bind(this) }),
-						_react2.default.createElement('i', { className: 'fa fa-trash fa-fw fa-lg', onClick: function onClick() {
-								return onDelete(data.id);
+						_react2.default.createElement('i', { className: 'fa fa-check', onClick: this.finishEdit.bind(this) }),
+						_react2.default.createElement('i', { className: 'fa fa-trash', onClick: function onClick() {
+								return onDelete(value);
 							} })
 					)
 				),
-				_react2.default.createElement('textarea', {
-					className: 'description-edit',
-					rows: 5, value: description,
-					onChange: function onChange(e) {
-						return _this2.setState({ description: e.target.value });
-					} }),
-				_react2.default.createElement(_inputCategory2.default, {
-					categories: Object.assign({}, categories, { 'none': { value: 'none', label: 'None', color: '#333' } }),
-					onChange: this.categoryChange.bind(this),
-					prefix: 'edit-',
-					value: category })
+				_react2.default.createElement(_ColorPicker2.default, { onChange: this.onColorChange.bind(this), value: this.state.color })
 			);
 		}
 	}]);
 
-	return IdeaForm;
+	return CategoryEdit;
 }(_react.Component);
 
-exports.default = IdeaForm;
+exports.default = CategoryEdit;
 
-},{"./input-category.js":201,"react":196}],200:[function(require,module,exports){
-'use strict';
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
+CategoryEdit.propTypes = {
+	onDelete: _react.PropTypes.func.isRequired,
+	editCategory: _react.PropTypes.func.isRequired,
+	label: _react.PropTypes.string,
+	value: _react.PropTypes.string,
+	color: _react.PropTypes.string
+};
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _inputTitle = require('./input-title.js');
-
-var _inputTitle2 = _interopRequireDefault(_inputTitle);
-
-var _inputDescription = require('./input-description.js');
-
-var _inputDescription2 = _interopRequireDefault(_inputDescription);
-
-var _inputCategory = require('./input-category.js');
-
-var _inputCategory2 = _interopRequireDefault(_inputCategory);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var IdeaForm = function (_Component) {
-	_inherits(IdeaForm, _Component);
-
-	function IdeaForm(props) {
-		_classCallCheck(this, IdeaForm);
-
-		var _this = _possibleConstructorReturn(this, (IdeaForm.__proto__ || Object.getPrototypeOf(IdeaForm)).call(this, props));
-
-		_this.state = { active: false, title: "", description: "", category: "none" };
-		return _this;
-	}
-
-	_createClass(IdeaForm, [{
-		key: 'titleChange',
-		value: function titleChange(e) {
-			this.setState({ title: e.target.value });
-		}
-	}, {
-		key: 'descriptionChange',
-		value: function descriptionChange(e) {
-			this.setState({ description: e.target.value });
-		}
-	}, {
-		key: 'categoryChange',
-		value: function categoryChange(e) {
-			this.setState({ category: e.target.value });
-		}
-	}, {
-		key: 'formSubmit',
-		value: function formSubmit() {
-			var _state = this.state;
-			var title = _state.title;
-			var description = _state.description;
-			var category = _state.category;
-
-			if (title) {
-				this.setState({ title: "", description: "" });
-				this.props.onSubmit(title, description, category);
-			}
-		}
-	}, {
-		key: 'openForm',
-		value: function openForm() {
-			this.setState({ active: true });
-		}
-	}, {
-		key: 'closeForm',
-		value: function closeForm() {
-			this.setState({ active: false });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props = this.props;
-			var categories = _props.categories;
-			var toggleCreate = _props.toggleCreate;
-			var _state2 = this.state;
-			var active = _state2.active;
-			var title = _state2.title;
-			var description = _state2.description;
-			var category = _state2.category;
-
-			if (active) {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'idea-form' },
-					_react2.default.createElement(
-						'form',
-						null,
-						_react2.default.createElement(_inputTitle2.default, { onChange: this.titleChange.bind(this), value: title }),
-						_react2.default.createElement(_inputDescription2.default, { onChange: this.descriptionChange.bind(this), value: description }),
-						_react2.default.createElement(_inputCategory2.default, {
-							prefix: 'form-',
-							onChange: this.categoryChange.bind(this),
-							value: category,
-							categories: Object.assign({}, categories, { 'none': { value: 'none', label: 'None', color: '#333' } }) })
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'btn-set' },
-						_react2.default.createElement(
-							'button',
-							{ className: 'submit-btn', onClick: this.formSubmit.bind(this) },
-							_react2.default.createElement('i', { className: 'fa fa-check' })
-						),
-						_react2.default.createElement(
-							'button',
-							{ className: 'close-btn', onClick: this.closeForm.bind(this) },
-							_react2.default.createElement('i', { className: 'fa fa-close' })
-						)
-					)
-				);
-			} else {
-				return _react2.default.createElement(
-					'button',
-					{ className: 'create-btn', onClick: this.openForm.bind(this) },
-					_react2.default.createElement('i', { className: 'fa fa-plus' })
-				);
-			}
-		}
-	}]);
-
-	return IdeaForm;
-}(_react.Component);
-
-exports.default = IdeaForm;
-
-},{"./input-category.js":201,"./input-description.js":202,"./input-title.js":203,"react":196}],201:[function(require,module,exports){
+},{"./ColorPicker":201,"react":196}],200:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -30932,197 +30764,123 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var CategoryInput = function (_Component) {
-	_inherits(CategoryInput, _Component);
+var CategoryItem = function (_Component) {
+	_inherits(CategoryItem, _Component);
 
-	function CategoryInput() {
-		_classCallCheck(this, CategoryInput);
+	function CategoryItem() {
+		_classCallCheck(this, CategoryItem);
 
-		return _possibleConstructorReturn(this, (CategoryInput.__proto__ || Object.getPrototypeOf(CategoryInput)).apply(this, arguments));
+		return _possibleConstructorReturn(this, (CategoryItem.__proto__ || Object.getPrototypeOf(CategoryItem)).apply(this, arguments));
 	}
 
-	_createClass(CategoryInput, [{
+	_createClass(CategoryItem, [{
+		key: "enterEdit",
+		value: function enterEdit() {
+			this.props.enterEdit(this.props.value);
+		}
+	}, {
+		key: "onDelete",
+		value: function onDelete() {
+			this.props.onDelete(this.props.value);
+		}
+	}, {
 		key: "render",
 		value: function render() {
 			var _props = this.props;
+			var label = _props.label;
 			var value = _props.value;
-			var onChange = _props.onChange;
-			var categories = _props.categories;
-			var prefix = _props.prefix;
+			var color = _props.color;
 
-			var options = getOptions(categories);
 			return _react2.default.createElement(
-				"div",
-				{ className: "input-group category" },
-				_react2.default.createElement(
-					"span",
-					{ className: "label" },
-					"Category"
-				),
+				"li",
+				{ style: { borderLeft: "5px solid " + color } },
 				_react2.default.createElement(
 					"div",
-					{ className: "category-options" },
-					options.map(function (opt) {
-						return _react2.default.createElement(
-							"span",
-							{ key: opt.value + "-container" },
-							_react2.default.createElement("input", {
-								type: "radio",
-								key: prefix + opt.value,
-								id: prefix + opt.value,
-								value: opt.value,
-								name: "category",
-								onChange: onChange,
-								checked: value === opt.value }),
-							_react2.default.createElement(
-								"label",
-								{
-									style: { color: value === opt.value ? opt.color : '' },
-									key: prefix + opt.value + "-label",
-									htmlFor: prefix + opt.value,
-									"class": "category-label" },
-								opt.label
-							)
-						);
-					})
+					{ className: "li-container" },
+					_react2.default.createElement(
+						"span",
+						{ className: "category-label" },
+						label
+					),
+					_react2.default.createElement(
+						"span",
+						{ className: "buttons" },
+						_react2.default.createElement("i", { className: "fa fa-pencil", onClick: this.enterEdit.bind(this) }),
+						_react2.default.createElement("i", { className: "fa fa-trash", onClick: this.onDelete.bind(this) })
+					)
 				)
 			);
 		}
 	}]);
 
-	return CategoryInput;
+	return CategoryItem;
 }(_react.Component);
 
-exports.default = CategoryInput;
+exports.default = CategoryItem;
 
 
-function getOptions(cat) {
-	var arr = [];
-	for (var i in cat) {
-		arr.push(Object.assign({ value: i }, cat[i]));
-	}
-	return arr;
+CategoryItem.propTypes = {
+	onDelete: _react.PropTypes.func.isRequired,
+	enterEdit: _react.PropTypes.func.isRequired,
+	label: _react.PropTypes.string,
+	value: _react.PropTypes.string,
+	color: _react.PropTypes.string
+};
+
+},{"react":196}],201:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _palette = require('../palette');
+
+var _palette2 = _interopRequireDefault(_palette);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function ColorPicker(props) {
+	var _onChange = props.onChange;
+	var value = props.value;
+
+	return _react2.default.createElement(
+		'div',
+		{ className: 'colors' },
+		_palette2.default.map(function (color, i) {
+			return _react2.default.createElement(
+				'span',
+				{ key: i, className: 'color-set' },
+				_react2.default.createElement('input', {
+					onChange: function onChange() {
+						return _onChange(color);
+					},
+					type: 'radio',
+					name: 'color',
+					value: color,
+					checked: value === color,
+					id: 'color-' + i }),
+				_react2.default.createElement('label', {
+					style: { backgroundColor: color },
+					htmlFor: 'color-' + i,
+					id: 'color-label-' + i })
+			);
+		})
+	);
 }
 
-},{"react":196}],202:[function(require,module,exports){
-"use strict";
+ColorPicker.propTypes = {
+	onChange: _react.PropTypes.func.isRequired,
+	value: _react.PropTypes.string.isRequired
+};
 
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
+exports.default = ColorPicker;
 
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var DescriptionInput = function (_Component) {
-	_inherits(DescriptionInput, _Component);
-
-	function DescriptionInput() {
-		_classCallCheck(this, DescriptionInput);
-
-		return _possibleConstructorReturn(this, (DescriptionInput.__proto__ || Object.getPrototypeOf(DescriptionInput)).apply(this, arguments));
-	}
-
-	_createClass(DescriptionInput, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props;
-			var value = _props.value;
-			var onChange = _props.onChange;
-
-			return _react2.default.createElement(
-				"div",
-				{ className: "input-group description" },
-				_react2.default.createElement(
-					"label",
-					null,
-					_react2.default.createElement(
-						"span",
-						null,
-						"Description"
-					),
-					_react2.default.createElement("textarea", { rows: 5, value: value, onChange: onChange })
-				)
-			);
-		}
-	}]);
-
-	return DescriptionInput;
-}(_react.Component);
-
-exports.default = DescriptionInput;
-
-},{"react":196}],203:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var TitleInput = function (_Component) {
-	_inherits(TitleInput, _Component);
-
-	function TitleInput() {
-		_classCallCheck(this, TitleInput);
-
-		return _possibleConstructorReturn(this, (TitleInput.__proto__ || Object.getPrototypeOf(TitleInput)).apply(this, arguments));
-	}
-
-	_createClass(TitleInput, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props;
-			var value = _props.value;
-			var onChange = _props.onChange;
-
-			return _react2.default.createElement(
-				"div",
-				{ className: "input-group title" },
-				_react2.default.createElement(
-					"label",
-					null,
-					_react2.default.createElement(
-						"span",
-						null,
-						"Title"
-					),
-					_react2.default.createElement("input", { type: "text", value: value, onChange: onChange, autoFocus: true })
-				)
-			);
-		}
-	}]);
-
-	return TitleInput;
-}(_react.Component);
-
-exports.default = TitleInput;
-
-},{"react":196}],204:[function(require,module,exports){
+},{"../palette":213,"react":196}],202:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31135,18 +30893,6 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
-var _ideaEdit = require('../forms/idea-edit.js');
-
-var _ideaEdit2 = _interopRequireDefault(_ideaEdit);
-
-var _idea = require('./idea.js');
-
-var _idea2 = _interopRequireDefault(_idea);
-
-var _inputCategory = require('../forms/input-category.js');
-
-var _inputCategory2 = _interopRequireDefault(_inputCategory);
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -31155,128 +30901,50 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
-var IdeaList = function (_Component) {
-	_inherits(IdeaList, _Component);
+var CreateIdeaButton = function (_Component) {
+	_inherits(CreateIdeaButton, _Component);
 
-	function IdeaList(props) {
-		_classCallCheck(this, IdeaList);
+	function CreateIdeaButton() {
+		_classCallCheck(this, CreateIdeaButton);
 
-		var _this = _possibleConstructorReturn(this, (IdeaList.__proto__ || Object.getPrototypeOf(IdeaList)).call(this, props));
-
-		_this.state = { filter: 'all', editing: -1 };
-		return _this;
+		return _possibleConstructorReturn(this, (CreateIdeaButton.__proto__ || Object.getPrototypeOf(CreateIdeaButton)).apply(this, arguments));
 	}
 
-	_createClass(IdeaList, [{
-		key: 'changeFilter',
-		value: function changeFilter(e) {
-			this.setState({ filter: e.target.value });
-		}
-	}, {
-		key: 'enterEdit',
-		value: function enterEdit(id) {
-			this.setState({ editing: id });
-		}
-	}, {
-		key: 'exitEdit',
-		value: function exitEdit() {
-			this.setState({ editing: -1 });
+	_createClass(CreateIdeaButton, [{
+		key: 'createIdea',
+		value: function createIdea() {
+			var _props = this.props;
+			var onSubmit = _props.onSubmit;
+			var toggleEdit = _props.toggleEdit;
+			var filter = _props.filter;
+
+			var id = onSubmit('', '', filter);
+			toggleEdit(id);
 		}
 	}, {
 		key: 'render',
 		value: function render() {
-			var _this2 = this;
-
-			var _props = this.props;
-			var ideas = _props.ideas;
-			var onDelete = _props.onDelete;
-			var onEdit = _props.onEdit;
-			var categories = _props.categories;
-			var filter = this.state.filter;
-
-			if (filter !== 'all') ideas = ideas.filter(function (idea) {
-				return idea.category === filter;
-			});
-			if (ideas.length <= 0) {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'idea-list' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'idea-filter' },
-						_react2.default.createElement(_inputCategory2.default, {
-							prefix: 'filter-',
-							categories: Object.assign({ all: { label: 'All', color: '#333', value: 'all' } }, categories),
-							value: this.state.filter,
-							onChange: this.changeFilter.bind(this) })
-					),
-					_react2.default.createElement(
-						'div',
-						{ className: 'empty-msg' },
-						'There are currently no entries',
-						filter === 'all' ? '' : _react2.default.createElement(
-							'span',
-							null,
-							' for ',
-							_react2.default.createElement(
-								'span',
-								{ className: 'cat', style: { color: categories[filter].color } },
-								categories[filter].label
-							)
-						)
-					)
-				);
-			} else {
-				return _react2.default.createElement(
-					'div',
-					{ className: 'idea-list' },
-					_react2.default.createElement(
-						'div',
-						{ className: 'idea-filter' },
-						_react2.default.createElement(_inputCategory2.default, {
-							prefix: 'filter-',
-							categories: Object.assign({ all: { label: 'All', color: '#333', value: 'all' } }, categories),
-							value: this.state.filter,
-							onChange: this.changeFilter.bind(this) })
-					),
-					ideas.map(function (idea) {
-						if (_this2.state.editing === idea.id) {
-							return _react2.default.createElement(_ideaEdit2.default, {
-								key: idea.id,
-								data: idea,
-								categories: categories,
-								onSubmit: onEdit,
-								onDelete: onDelete,
-								exitEdit: _this2.exitEdit.bind(_this2) });
-						} else {
-							return _react2.default.createElement(_idea2.default, {
-								key: idea.id,
-								data: idea,
-								categories: categories,
-								onDelete: onDelete,
-								enterEdit: _this2.enterEdit.bind(_this2) });
-						}
-					})
-				);
-			}
+			return _react2.default.createElement(
+				'button',
+				{ className: 'create-btn', onClick: this.createIdea.bind(this) },
+				_react2.default.createElement('i', { className: 'fa fa-plus' })
+			);
 		}
 	}]);
 
-	return IdeaList;
+	return CreateIdeaButton;
 }(_react.Component);
 
-exports.default = IdeaList;
+exports.default = CreateIdeaButton;
 
 
-function getOptions(cat) {
-	var arr = [];
-	for (var i in cat) {
-		arr.push(Object.assign({ value: i }, cat[i]));
-	}
-	return arr;
-}
+CreateIdeaButton.propTypes = {
+	onSubmit: _react.PropTypes.func.isRequired,
+	toggleEdit: _react.PropTypes.func.isRequired,
+	filter: _react.PropTypes.string.isRequired
+};
 
-},{"../forms/idea-edit.js":199,"../forms/input-category.js":201,"./idea.js":205,"react":196}],205:[function(require,module,exports){
+},{"react":196}],203:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31315,26 +30983,30 @@ var Idea = function (_Component) {
 	}
 
 	_createClass(Idea, [{
+		key: 'enterEdit',
+		value: function enterEdit() {
+			this.props.enterEdit(this.props.data.id);
+		}
+	}, {
+		key: 'onDelete',
+		value: function onDelete() {
+			this.props.onDelete(this.props.data.id);
+		}
+	}, {
 		key: 'render',
 		value: function render() {
 			var _props = this.props;
 			var data = _props.data;
-			var onDelete = _props.onDelete;
-			var enterEdit = _props.enterEdit;
 			var categories = _props.categories;
 
-			var _ref = categories[data.category] || { color: 'black', label: 'none' };
+			var _ref = categories[data.category] || { color: '#333', label: '' };
 
 			var color = _ref.color;
 			var label = _ref.label;
 
-			var ideaStyle = {
-				borderLeftColor: color
-			};
-			var labelStyle = {
-				color: color
-			};
-			// let description = this.parseDescription(data.description);
+			var ideaStyle = { borderLeftColor: color };
+			var labelStyle = { color: color };
+
 			return _react2.default.createElement(
 				'div',
 				{ style: ideaStyle, className: 'idea cat-' + data.category },
@@ -31346,12 +31018,8 @@ var Idea = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'buttons' },
-					_react2.default.createElement('i', { className: 'fa fa-pencil fa-fw fa-lg', onClick: function onClick() {
-							return enterEdit(data.id);
-						} }),
-					_react2.default.createElement('i', { className: 'fa fa-trash fa-fw fa-lg', onClick: function onClick() {
-							return onDelete(data.id);
-						} })
+					_react2.default.createElement('i', { className: 'fa fa-pencil fa-fw fa-lg', onClick: this.enterEdit.bind(this) }),
+					_react2.default.createElement('i', { className: 'fa fa-trash fa-fw fa-lg', onClick: this.onDelete.bind(this) })
 				),
 				_react2.default.createElement(
 					'div',
@@ -31384,7 +31052,728 @@ var Idea = function (_Component) {
 
 exports.default = Idea;
 
-},{"moment":48,"react":196,"react-markdown":53}],206:[function(require,module,exports){
+
+Idea.propTypes = {
+	onDelete: _react.PropTypes.func.isRequired,
+	enterEdit: _react.PropTypes.func.isRequired,
+	categories: _react.PropTypes.object.isRequired,
+	data: _react.PropTypes.shape({
+		id: _react.PropTypes.number,
+		title: _react.PropTypes.string,
+		description: _react.PropTypes.string,
+		category: _react.PropTypes.string,
+		createdOn: _react.PropTypes.date
+	}).isRequired
+};
+
+},{"moment":48,"react":196,"react-markdown":53}],204:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _InputCategory = require('./InputCategory');
+
+var _InputCategory2 = _interopRequireDefault(_InputCategory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IdeaEdit = function (_Component) {
+	_inherits(IdeaEdit, _Component);
+
+	function IdeaEdit(props) {
+		_classCallCheck(this, IdeaEdit);
+
+		var _this = _possibleConstructorReturn(this, (IdeaEdit.__proto__ || Object.getPrototypeOf(IdeaEdit)).call(this, props));
+
+		var _props$data = props.data;
+		var title = _props$data.title;
+		var description = _props$data.description;
+		var category = _props$data.category;
+
+		_this.state = { title: title || "", description: description || "", category: category || "" };
+		return _this;
+	}
+
+	_createClass(IdeaEdit, [{
+		key: 'titleChange',
+		value: function titleChange(e) {
+			this.setState({ title: e.target.value });
+		}
+	}, {
+		key: 'descriptionChange',
+		value: function descriptionChange(e) {
+			this.setState({ description: e.target.value });
+		}
+	}, {
+		key: 'categoryChange',
+		value: function categoryChange(e) {
+			this.setState({ category: e.target.value });
+		}
+	}, {
+		key: 'onDelete',
+		value: function onDelete() {
+			this.props.onDelete(this.props.data.id);
+		}
+	}, {
+		key: 'formSubmit',
+		value: function formSubmit() {
+			var _state = this.state;
+			var title = _state.title;
+			var description = _state.description;
+			var category = _state.category;
+			var _props = this.props;
+			var data = _props.data;
+			var exitEdit = _props.exitEdit;
+			var onEdit = _props.onEdit;
+
+			onEdit({ id: data.id, title: title, description: description, category: category, createdOn: data.createdOn });
+			exitEdit();
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _state2 = this.state;
+			var title = _state2.title;
+			var description = _state2.description;
+			var category = _state2.category;
+			var categories = this.props.categories;
+
+			var _ref = categories[category] || { color: '#333' };
+
+			var color = _ref.color;
+
+			var ideaStyle = { borderLeftColor: color };
+
+			return _react2.default.createElement(
+				'div',
+				{ style: ideaStyle, className: 'idea idea-edit cat-' + category },
+				_react2.default.createElement(
+					'div',
+					{ className: 'top-section' },
+					_react2.default.createElement('input', { className: 'title-edit', type: 'text', value: title, onChange: this.titleChange.bind(this) }),
+					_react2.default.createElement(
+						'div',
+						{ className: 'buttons' },
+						_react2.default.createElement('i', { className: 'fa fa-check fa-fw fa-lg', onClick: this.formSubmit.bind(this) }),
+						_react2.default.createElement('i', { className: 'fa fa-trash fa-fw fa-lg', onClick: this.onDelete.bind(this) })
+					)
+				),
+				_react2.default.createElement('textarea', {
+					className: 'description-edit',
+					rows: 5, value: description,
+					onChange: this.descriptionChange.bind(this) }),
+				_react2.default.createElement(_InputCategory2.default, {
+					categories: Object.assign({}, categories, { 'none': { value: '', label: 'None', color: '#333' } }),
+					onChange: this.categoryChange.bind(this),
+					prefix: 'edit-',
+					value: category })
+			);
+		}
+	}]);
+
+	return IdeaEdit;
+}(_react.Component);
+
+exports.default = IdeaEdit;
+
+
+IdeaEdit.propTypes = {
+	onDelete: _react.PropTypes.func.isRequired,
+	onEdit: _react.PropTypes.func.isRequired,
+	exitEdit: _react.PropTypes.func.isRequired,
+	categories: _react.PropTypes.object.isRequired,
+	data: _react.PropTypes.shape({
+		category: _react.PropTypes.string,
+		title: _react.PropTypes.string,
+		description: _react.PropTypes.string,
+		createOn: _react.PropTypes.date
+	}).isRequired
+};
+
+},{"./InputCategory":206,"react":196}],205:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _IdeaEdit = require('./IdeaEdit');
+
+var _IdeaEdit2 = _interopRequireDefault(_IdeaEdit);
+
+var _Idea = require('./Idea');
+
+var _Idea2 = _interopRequireDefault(_Idea);
+
+var _InputCategory = require('./InputCategory');
+
+var _InputCategory2 = _interopRequireDefault(_InputCategory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var IdeaList = function (_Component) {
+	_inherits(IdeaList, _Component);
+
+	function IdeaList() {
+		_classCallCheck(this, IdeaList);
+
+		return _possibleConstructorReturn(this, (IdeaList.__proto__ || Object.getPrototypeOf(IdeaList)).apply(this, arguments));
+	}
+
+	_createClass(IdeaList, [{
+		key: 'enterEdit',
+		value: function enterEdit(id) {
+			this.props.toggleEdit(id);
+		}
+	}, {
+		key: 'exitEdit',
+		value: function exitEdit() {
+			this.props.toggleEdit(-1);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var _props = this.props;
+			var ideas = _props.ideas;
+			var filter = _props.filter;
+			var onDelete = _props.onDelete;
+			var onEdit = _props.onEdit;
+			var editing = _props.editing;
+			var categories = _props.categories;
+
+			if (ideas.length < 1) return _react2.default.createElement(
+				'div',
+				{ className: 'empty-msg' },
+				'There are currently no entries',
+				filter == 'all' ? '' : _react2.default.createElement(
+					'span',
+					null,
+					' for ',
+					_react2.default.createElement(
+						'span',
+						{ className: 'cat', style: { color: categories[filter].color } },
+						categories[filter].label
+					)
+				)
+			);
+			return _react2.default.createElement(
+				'div',
+				{ className: 'idea-list' },
+				ideas.map(function (idea) {
+					var commonProps = {
+						key: idea.id,
+						data: idea,
+						categories: categories,
+						onDelete: onDelete
+					};
+					return editing === idea.id ? _react2.default.createElement(_IdeaEdit2.default, _extends({}, commonProps, { onEdit: onEdit, exitEdit: _this2.exitEdit.bind(_this2) })) : _react2.default.createElement(_Idea2.default, _extends({}, commonProps, { enterEdit: _this2.enterEdit.bind(_this2) }));
+				})
+			);
+		}
+	}]);
+
+	return IdeaList;
+}(_react.Component);
+
+exports.default = IdeaList;
+
+
+IdeaList.propTypes = {
+	ideas: _react.PropTypes.array.isRequired,
+	filter: _react.PropTypes.string.isRequired,
+	categories: _react.PropTypes.object.isRequired,
+	editing: _react.PropTypes.number.isRequired,
+	onEdit: _react.PropTypes.func.isRequired,
+	onDelete: _react.PropTypes.func.isRequired,
+	toggleEdit: _react.PropTypes.func.isRequired
+};
+
+},{"./Idea":203,"./IdeaEdit":204,"./InputCategory":206,"react":196}],206:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var InputCategory = function (_Component) {
+	_inherits(InputCategory, _Component);
+
+	function InputCategory() {
+		_classCallCheck(this, InputCategory);
+
+		return _possibleConstructorReturn(this, (InputCategory.__proto__ || Object.getPrototypeOf(InputCategory)).apply(this, arguments));
+	}
+
+	_createClass(InputCategory, [{
+		key: "render",
+		value: function render() {
+			var _props = this.props;
+			var value = _props.value;
+			var onChange = _props.onChange;
+			var categories = _props.categories;
+			var prefix = _props.prefix;
+
+			return _react2.default.createElement(
+				"div",
+				{ className: "input-group category" },
+				_react2.default.createElement(
+					"span",
+					{ className: "label" },
+					"Category"
+				),
+				_react2.default.createElement(
+					"div",
+					{ className: "category-options" },
+					Object.keys(categories).map(function (i) {
+						var _categories$i = categories[i];
+						var val = _categories$i.value;
+						var label = _categories$i.label;
+						var color = _categories$i.color;
+
+						return _react2.default.createElement(
+							"span",
+							{ key: val + "-container" },
+							_react2.default.createElement("input", {
+								type: "radio",
+								key: prefix + val,
+								id: prefix + val,
+								value: val,
+								name: "category",
+								onChange: onChange,
+								checked: value === val }),
+							_react2.default.createElement(
+								"label",
+								{
+									style: { color: value === val ? color : '' },
+									key: prefix + val + "-label",
+									htmlFor: prefix + val,
+									className: "category-label" },
+								label
+							)
+						);
+					})
+				)
+			);
+		}
+	}]);
+
+	return InputCategory;
+}(_react.Component);
+
+exports.default = InputCategory;
+
+
+InputCategory.propTypes = {
+	value: _react.PropTypes.string.isRequired,
+	categories: _react.PropTypes.object.isRequired,
+	onChange: _react.PropTypes.func.isRequired,
+	prefix: _react.PropTypes.string.isRequired
+};
+
+},{"react":196}],207:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _IdeaList = require('./IdeaList');
+
+var _IdeaList2 = _interopRequireDefault(_IdeaList);
+
+var _InputCategory = require('./InputCategory');
+
+var _InputCategory2 = _interopRequireDefault(_InputCategory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Jar = function (_Component) {
+	_inherits(Jar, _Component);
+
+	function Jar() {
+		_classCallCheck(this, Jar);
+
+		return _possibleConstructorReturn(this, (Jar.__proto__ || Object.getPrototypeOf(Jar)).apply(this, arguments));
+	}
+
+	_createClass(Jar, [{
+		key: 'render',
+		value: function render() {
+			var _props = this.props;
+			var ideas = _props.ideas;
+			var categories = _props.categories;
+			var filter = _props.filter;
+			var toggleFilter = _props.toggleFilter;
+
+			if (filter) ideas = ideas.filter(function (idea) {
+				return idea.category === filter;
+			});
+			return _react2.default.createElement(
+				'div',
+				{ className: 'jar' },
+				_react2.default.createElement(
+					'div',
+					{ className: 'idea-filter' },
+					_react2.default.createElement(_InputCategory2.default, {
+						prefix: 'filter-',
+						categories: Object.assign({ all: { label: 'All', color: '#333', value: "" } }, categories),
+						value: filter,
+						onChange: toggleFilter })
+				),
+				_react2.default.createElement(_IdeaList2.default, _extends({}, this.props, {
+					ideas: ideas,
+					filter: filter }))
+			);
+		}
+	}]);
+
+	return Jar;
+}(_react.Component);
+
+exports.default = Jar;
+
+
+Jar.propTypes = {
+	categories: _react.PropTypes.object.isRequired,
+	ideas: _react.PropTypes.array.isRequired,
+	filter: _react.PropTypes.string,
+	editing: _react.PropTypes.number.isRequired,
+	toggleEdit: _react.PropTypes.func.isRequired,
+	toggleFilter: _react.PropTypes.func.isRequired,
+	onDelete: _react.PropTypes.func.isRequired,
+	onEdit: _react.PropTypes.func.isRequired
+};
+
+},{"./IdeaList":205,"./InputCategory":206,"react":196}],208:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _SettingsMenu = require('./SettingsMenu');
+
+var _SettingsMenu2 = _interopRequireDefault(_SettingsMenu);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Settings = function (_Component) {
+	_inherits(Settings, _Component);
+
+	function Settings(props) {
+		_classCallCheck(this, Settings);
+
+		var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
+
+		_this.state = { active: false };
+		return _this;
+	}
+
+	_createClass(Settings, [{
+		key: 'enterMenu',
+		value: function enterMenu(e) {
+			e.stopPropagation();
+			this.setState({ active: true });
+			window.addEventListener('click', this.exitMenu.bind(this));
+		}
+	}, {
+		key: 'exitMenu',
+		value: function exitMenu(e) {
+			e.stopPropagation();
+			this.setState({ active: false });
+			window.removeEventListener('click', this.exitMenu);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var active = this.state.active;
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'settings' },
+				_react2.default.createElement('i', {
+					className: "menu-btn fa fa-gear " + (active ? 'active' : ''),
+					onClick: active ? this.exitMenu.bind(this) : this.enterMenu.bind(this) }),
+				_react2.default.createElement(_SettingsMenu2.default, _extends({}, this.props, {
+					active: active }))
+			);
+		}
+	}]);
+
+	return Settings;
+}(_react.Component);
+
+exports.default = Settings;
+
+
+Settings.propTypes = {
+	categories: _react.PropTypes.object,
+	saveCategories: _react.PropTypes.func
+};
+
+},{"./SettingsMenu":210,"react":196}],209:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _CategoryItem = require('./CategoryItem');
+
+var _CategoryItem2 = _interopRequireDefault(_CategoryItem);
+
+var _CategoryEdit = require('./CategoryEdit');
+
+var _CategoryEdit2 = _interopRequireDefault(_CategoryEdit);
+
+var _palette = require('../palette');
+
+var _palette2 = _interopRequireDefault(_palette);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var CategorySettings = function (_Component) {
+	_inherits(CategorySettings, _Component);
+
+	function CategorySettings(props) {
+		_classCallCheck(this, CategorySettings);
+
+		var _this = _possibleConstructorReturn(this, (CategorySettings.__proto__ || Object.getPrototypeOf(CategorySettings)).call(this, props));
+
+		_this.state = { edit: '', new: false };
+		return _this;
+	}
+
+	_createClass(CategorySettings, [{
+		key: 'enterEdit',
+		value: function enterEdit(id) {
+			this.setState({ edit: id });
+		}
+	}, {
+		key: 'exitEdit',
+		value: function exitEdit() {
+			this.setState({ edit: -1 });
+		}
+	}, {
+		key: 'newCategory',
+		value: function newCategory() {
+			var _props = this.props;
+			var saveCategories = _props.saveCategories;
+			var categories = _props.categories;
+
+			var catID = 'cat' + Date.now();
+			var g = {};
+			g[catID] = { value: catID, label: 'Untitled', color: _palette2.default[Math.floor(Math.random() * _palette2.default.length)] };
+			saveCategories(Object.assign(g, categories));
+			this.enterEdit(catID);
+		}
+	}, {
+		key: 'editCategory',
+		value: function editCategory(category) {
+			var _props2 = this.props;
+			var saveCategories = _props2.saveCategories;
+			var categories = _props2.categories;
+
+			var k = Object.assign({}, categories);
+			k[category.value] = category;
+			saveCategories(k);
+			this.exitEdit();
+		}
+	}, {
+		key: 'deleteCategory',
+		value: function deleteCategory(value) {
+			var _props3 = this.props;
+			var categories = _props3.categories;
+			var saveCategories = _props3.saveCategories;
+
+			var k = Object.assign({}, this.props.categories);
+			delete k[value];
+			saveCategories(k);
+		}
+	}, {
+		key: 'render',
+		value: function render() {
+			var _this2 = this;
+
+			var categories = this.props.categories;
+
+			return _react2.default.createElement(
+				'div',
+				{ className: 'settings-category' },
+				_react2.default.createElement(
+					'h4',
+					{ className: 'title' },
+					'Categories'
+				),
+				_react2.default.createElement(
+					'div',
+					{ className: 'btn-container' },
+					_react2.default.createElement(
+						'button',
+						{ className: 'new-category-btn', onClick: this.newCategory.bind(this) },
+						_react2.default.createElement('i', { className: 'fa fa-plus' })
+					)
+				),
+				_react2.default.createElement(
+					'ul',
+					{ className: 'category-list' },
+					Object.keys(categories).map(function (i) {
+						var _categories$i = categories[i];
+						var value = _categories$i.value;
+						var color = _categories$i.color;
+						var label = _categories$i.label;
+
+						var commonProps = {
+							key: value,
+							value: value,
+							label: label,
+							color: color,
+							onDelete: _this2.deleteCategory.bind(_this2)
+						};
+						return i === _this2.state.edit ? _react2.default.createElement(_CategoryEdit2.default, _extends({}, commonProps, { editCategory: _this2.editCategory.bind(_this2) })) : _react2.default.createElement(_CategoryItem2.default, _extends({}, commonProps, { enterEdit: _this2.enterEdit.bind(_this2) }));
+					})
+				)
+			);
+		}
+	}]);
+
+	return CategorySettings;
+}(_react.Component);
+
+exports.default = CategorySettings;
+
+
+CategorySettings.propTypes = {
+	categories: _react.PropTypes.object,
+	saveCategories: _react.PropTypes.func
+};
+
+},{"../palette":213,"./CategoryEdit":199,"./CategoryItem":200,"react":196}],210:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _SettingsCategory = require('./SettingsCategory');
+
+var _SettingsCategory2 = _interopRequireDefault(_SettingsCategory);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SettingsMenu(props) {
+	var categories = props.categories;
+	var saveCategories = props.saveCategories;
+	var active = props.active;
+
+	return _react2.default.createElement(
+		'div',
+		{ className: active ? 'settings-menu active' : 'settings-menu', onClick: function onClick(e) {
+				return e.stopPropagation();
+			} },
+		_react2.default.createElement(_SettingsCategory2.default, { categories: categories, saveCategories: saveCategories })
+	);
+}
+
+SettingsMenu.propTypes = {
+	active: _react.PropTypes.bool.isRequired,
+	categories: _react.PropTypes.object.isRequired,
+	saveCategories: _react.PropTypes.func.isRequired
+};
+
+exports.default = SettingsMenu;
+
+},{"./SettingsCategory":209,"react":196}],211:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31446,7 +31835,7 @@ var thoughts = exports.thoughts = [{
 	createdOn: Date.now() - 5
 }];
 
-},{}],207:[function(require,module,exports){
+},{}],212:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -31457,19 +31846,19 @@ var _react2 = _interopRequireDefault(_react);
 
 var _reactDom = require('react-dom');
 
-var _ideaList = require('./idea/idea-list.js');
+var _Jar = require('./components/Jar');
 
-var _ideaList2 = _interopRequireDefault(_ideaList);
+var _Jar2 = _interopRequireDefault(_Jar);
 
-var _ideaForm = require('./forms/idea-form.js');
+var _CreateIdeaButton = require('./components/CreateIdeaButton');
 
-var _ideaForm2 = _interopRequireDefault(_ideaForm);
+var _CreateIdeaButton2 = _interopRequireDefault(_CreateIdeaButton);
 
-var _settings = require('./settings/settings.js');
+var _Settings = require('./components/Settings');
 
-var _settings2 = _interopRequireDefault(_settings);
+var _Settings2 = _interopRequireDefault(_Settings);
 
-var _initial = require('./initial.js');
+var _initial = require('./initial');
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -31489,11 +31878,21 @@ var App = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-		_this.state = { ideas: _initial.thoughts, categories: _initial.categories };
+		_this.state = { ideas: _initial.thoughts, categories: _initial.categories, editing: -1, filter: "" };
 		return _this;
 	}
 
 	_createClass(App, [{
+		key: 'toggleEdit',
+		value: function toggleEdit(id) {
+			this.setState({ editing: id < 0 ? -1 : id });
+		}
+	}, {
+		key: 'toggleFilter',
+		value: function toggleFilter(e) {
+			this.setState({ filter: e.target.value || "" });
+		}
+	}, {
 		key: 'saveIdeas',
 		value: function saveIdeas(ideas) {
 			this.setState({ ideas: ideas });
@@ -31511,6 +31910,7 @@ var App = function (_Component) {
 			ideaID++;
 			window.localStorage.setItem('ideaID', ideaID);
 			this.saveIdeas([{ id: ideaID, title: title, description: description, category: category, createdOn: Date.now() }].concat(this.state.ideas));
+			return ideaID;
 		}
 	}, {
 		key: 'deleteIdea',
@@ -31527,11 +31927,6 @@ var App = function (_Component) {
 			}));
 		}
 	}, {
-		key: 'toggleEdit',
-		value: function toggleEdit(id) {
-			this.setState({ editing: id < 0 ? -1 : id });
-		}
-	}, {
 		key: 'populateStorage',
 		value: function populateStorage() {
 			window.localStorage.setItem('ideas', JSON.stringify(this.state.ideas));
@@ -31542,7 +31937,6 @@ var App = function (_Component) {
 	}, {
 		key: 'componentDidMount',
 		value: function componentDidMount() {
-			console.log(window.localStorage);
 			if (!window.localStorage.ideas || !window.localStorage.categories) {
 				this.populateStorage();
 			} else {
@@ -31558,21 +31952,27 @@ var App = function (_Component) {
 		value: function render() {
 			var _state = this.state;
 			var ideas = _state.ideas;
-			var editing = _state.editing;
 			var categories = _state.categories;
+			var editing = _state.editing;
+			var filter = _state.filter;
 
 			return _react2.default.createElement(
 				'div',
 				{ className: 'main-container' },
-				_react2.default.createElement(_settings2.default, {
+				_react2.default.createElement(_Settings2.default, {
 					saveCategories: this.saveCategories.bind(this),
 					categories: categories }),
-				_react2.default.createElement(_ideaForm2.default, {
+				_react2.default.createElement(_CreateIdeaButton2.default, {
 					onSubmit: this.createIdea.bind(this),
-					categories: categories }),
-				_react2.default.createElement(_ideaList2.default, {
+					toggleEdit: this.toggleEdit.bind(this),
+					filter: filter }),
+				_react2.default.createElement(_Jar2.default, {
 					categories: categories,
 					ideas: ideas,
+					filter: filter,
+					editing: editing,
+					toggleEdit: this.toggleEdit.bind(this),
+					toggleFilter: this.toggleFilter.bind(this),
 					onDelete: this.deleteIdea.bind(this),
 					onEdit: this.editIdea.bind(this) })
 			);
@@ -31584,544 +31984,15 @@ var App = function (_Component) {
 
 (0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
-},{"./forms/idea-form.js":200,"./idea/idea-list.js":204,"./initial.js":206,"./settings/settings.js":214,"react":196,"react-dom":52}],208:[function(require,module,exports){
+},{"./components/CreateIdeaButton":202,"./components/Jar":207,"./components/Settings":208,"./initial":211,"react":196,"react-dom":52}],213:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+// palette.js is where the colors for categories live.
+// These colors were borrowed from http://flatuicolors.com/
 var palette = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD', '#34495E', '#2C3E50', '#F1C40F', '#F39C12', '#E67E22', '#D35400', '#E74C3C', '#C0392B', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D'];
 exports.default = palette;
 
-},{}],209:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _colorPicker = require('./color-picker.js');
-
-var _colorPicker2 = _interopRequireDefault(_colorPicker);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CategoryEdit = function (_Component) {
-	_inherits(CategoryEdit, _Component);
-
-	function CategoryEdit(props) {
-		_classCallCheck(this, CategoryEdit);
-
-		var _this = _possibleConstructorReturn(this, (CategoryEdit.__proto__ || Object.getPrototypeOf(CategoryEdit)).call(this, props));
-
-		var _props$data = props.data;
-		var label = _props$data.label;
-		var color = _props$data.color;
-
-		_this.state = { label: label, color: color };
-		return _this;
-	}
-
-	_createClass(CategoryEdit, [{
-		key: 'onLabelChange',
-		value: function onLabelChange(e) {
-			this.setState({ label: e.target.value });
-		}
-	}, {
-		key: 'onColorChange',
-		value: function onColorChange(color) {
-			this.setState({ color: color });
-			console.log(color);
-		}
-	}, {
-		key: 'finishEdit',
-		value: function finishEdit() {
-			var _state = this.state;
-			var label = _state.label;
-			var color = _state.color;
-
-			this.props.editCategory({ label: label, color: color, value: this.props.data.value });
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _props = this.props;
-			var onDelete = _props.onDelete;
-			var data = _props.data;
-			var label = data.label;
-			var value = data.value;
-			var color = data.color;
-
-			return _react2.default.createElement(
-				'li',
-				{ style: { borderLeft: '5px solid ' + this.state.color } },
-				_react2.default.createElement(
-					'div',
-					{ className: 'li-container' },
-					_react2.default.createElement('input', {
-						value: this.state.label,
-						className: 'category-label',
-						onChange: this.onLabelChange.bind(this),
-						autoFocus: true }),
-					_react2.default.createElement(
-						'span',
-						{ className: 'buttons' },
-						_react2.default.createElement('i', { className: 'fa fa-check', onClick: this.finishEdit.bind(this) }),
-						_react2.default.createElement('i', { className: 'fa fa-trash', onClick: function onClick() {
-								return onDelete(value);
-							} })
-					)
-				),
-				_react2.default.createElement(_colorPicker2.default, { onChange: this.onColorChange.bind(this), value: this.state.color })
-			);
-		}
-	}]);
-
-	return CategoryEdit;
-}(_react.Component);
-
-exports.default = CategoryEdit;
-
-},{"./color-picker.js":211,"react":196}],210:[function(require,module,exports){
-"use strict";
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require("react");
-
-var _react2 = _interopRequireDefault(_react);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CategoryItem = function (_Component) {
-	_inherits(CategoryItem, _Component);
-
-	function CategoryItem() {
-		_classCallCheck(this, CategoryItem);
-
-		return _possibleConstructorReturn(this, (CategoryItem.__proto__ || Object.getPrototypeOf(CategoryItem)).apply(this, arguments));
-	}
-
-	_createClass(CategoryItem, [{
-		key: "render",
-		value: function render() {
-			var _props = this.props;
-			var enterEdit = _props.enterEdit;
-			var onDelete = _props.onDelete;
-			var data = _props.data;
-			var label = data.label;
-			var value = data.value;
-			var color = data.color;
-
-			return _react2.default.createElement(
-				"li",
-				{ style: { borderLeft: "5px solid " + color } },
-				_react2.default.createElement(
-					"div",
-					{ className: "li-container" },
-					_react2.default.createElement(
-						"span",
-						{ className: "category-label" },
-						label
-					),
-					_react2.default.createElement(
-						"span",
-						{ className: "buttons" },
-						_react2.default.createElement("i", { className: "fa fa-pencil", onClick: function onClick() {
-								return enterEdit(value);
-							} }),
-						_react2.default.createElement("i", { className: "fa fa-trash", onClick: function onClick() {
-								return onDelete(value);
-							} })
-					)
-				)
-			);
-		}
-	}]);
-
-	return CategoryItem;
-}(_react.Component);
-
-exports.default = CategoryItem;
-
-},{"react":196}],211:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _palette = require('../palette.js');
-
-var _palette2 = _interopRequireDefault(_palette);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var ColorPicker = function (_Component) {
-	_inherits(ColorPicker, _Component);
-
-	function ColorPicker() {
-		_classCallCheck(this, ColorPicker);
-
-		return _possibleConstructorReturn(this, (ColorPicker.__proto__ || Object.getPrototypeOf(ColorPicker)).apply(this, arguments));
-	}
-
-	_createClass(ColorPicker, [{
-		key: 'render',
-		value: function render() {
-			var _props = this.props;
-			var _onChange = _props.onChange;
-			var value = _props.value;
-
-			return _react2.default.createElement(
-				'div',
-				{ className: 'colors' },
-				_palette2.default.map(function (color, i) {
-					return _react2.default.createElement(
-						'span',
-						{ className: 'color-set' },
-						_react2.default.createElement('input', {
-							onChange: function onChange() {
-								return _onChange(color);
-							},
-							type: 'radio',
-							name: 'color',
-							value: color,
-							checked: value === color,
-							id: 'color-' + i }),
-						_react2.default.createElement('label', {
-							style: { backgroundColor: color },
-							htmlFor: 'color-' + i,
-							id: 'color-label-' + i })
-					);
-				})
-			);
-		}
-	}]);
-
-	return ColorPicker;
-}(_react.Component);
-
-exports.default = ColorPicker;
-
-},{"../palette.js":208,"react":196}],212:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _categoryItem = require('./category-item.js');
-
-var _categoryItem2 = _interopRequireDefault(_categoryItem);
-
-var _categoryEdit = require('./category-edit.js');
-
-var _categoryEdit2 = _interopRequireDefault(_categoryEdit);
-
-var _palette = require('../palette.js');
-
-var _palette2 = _interopRequireDefault(_palette);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var CategorySettings = function (_Component) {
-	_inherits(CategorySettings, _Component);
-
-	function CategorySettings(props) {
-		_classCallCheck(this, CategorySettings);
-
-		var _this = _possibleConstructorReturn(this, (CategorySettings.__proto__ || Object.getPrototypeOf(CategorySettings)).call(this, props));
-
-		_this.state = { edit: '', new: false };
-		return _this;
-	}
-
-	_createClass(CategorySettings, [{
-		key: 'enterEdit',
-		value: function enterEdit(value) {
-			this.setState({ edit: value });
-		}
-	}, {
-		key: 'exitEdit',
-		value: function exitEdit() {
-			this.setState({ edit: -1 });
-		}
-	}, {
-		key: 'newCategory',
-		value: function newCategory() {
-			var _props = this.props;
-			var saveCategories = _props.saveCategories;
-			var categories = _props.categories;
-
-			var catID = 'cat' + Date.now();
-			var g = {};
-			g[catID] = { value: catID, label: 'Untitled', color: _palette2.default[Math.floor(Math.random() * _palette2.default.length)] };
-			saveCategories(Object.assign(g, categories));
-			this.enterEdit(catID);
-		}
-	}, {
-		key: 'editCategory',
-		value: function editCategory(category) {
-			var _props2 = this.props;
-			var saveCategories = _props2.saveCategories;
-			var categories = _props2.categories;
-
-			var k = Object.assign({}, categories);
-			k[category.value] = category;
-			saveCategories(k);
-			this.exitEdit();
-		}
-	}, {
-		key: 'deleteCategory',
-		value: function deleteCategory(value) {
-			var _props3 = this.props;
-			var categories = _props3.categories;
-			var saveCategories = _props3.saveCategories;
-
-			var k = Object.assign({}, this.props.categories);
-			delete k[value];
-			saveCategories(k);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var _this2 = this;
-
-			var options = getOptions(this.props.categories);
-			return _react2.default.createElement(
-				'div',
-				{ className: 'settings-category' },
-				_react2.default.createElement(
-					'h4',
-					{ className: 'title' },
-					'Categories'
-				),
-				_react2.default.createElement(
-					'div',
-					{ className: 'btn-container' },
-					_react2.default.createElement(
-						'button',
-						{ className: 'new-category-btn', onClick: this.newCategory.bind(this) },
-						_react2.default.createElement('i', { className: 'fa fa-plus' })
-					)
-				),
-				_react2.default.createElement(
-					'ul',
-					{ className: 'category-list' },
-					options.map(function (opt) {
-						if (opt.value === _this2.state.edit) {
-							return _react2.default.createElement(_categoryEdit2.default, {
-								key: opt.value,
-								data: opt,
-								editCategory: _this2.editCategory.bind(_this2),
-								onDelete: _this2.deleteCategory.bind(_this2) });
-						} else {
-							return _react2.default.createElement(_categoryItem2.default, {
-								key: opt.value,
-								data: opt,
-								enterEdit: _this2.enterEdit.bind(_this2),
-								onDelete: _this2.deleteCategory.bind(_this2) });
-						}
-					})
-				)
-			);
-		}
-	}]);
-
-	return CategorySettings;
-}(_react.Component);
-
-exports.default = CategorySettings;
-
-
-function getOptions(cat) {
-	var arr = [];
-	for (var i in cat) {
-		arr.push(Object.assign({ value: i }, cat[i]));
-	}
-	return arr;
-}
-
-},{"../palette.js":208,"./category-edit.js":209,"./category-item.js":210,"react":196}],213:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _settingsCategory = require('./settings-category.js');
-
-var _settingsCategory2 = _interopRequireDefault(_settingsCategory);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var SettingsMenu = function (_Component) {
-	_inherits(SettingsMenu, _Component);
-
-	function SettingsMenu() {
-		_classCallCheck(this, SettingsMenu);
-
-		return _possibleConstructorReturn(this, (SettingsMenu.__proto__ || Object.getPrototypeOf(SettingsMenu)).apply(this, arguments));
-	}
-
-	_createClass(SettingsMenu, [{
-		key: 'render',
-		value: function render() {
-			var _props = this.props;
-			var categories = _props.categories;
-			var saveCategories = _props.saveCategories;
-			var active = _props.active;
-
-			return _react2.default.createElement(
-				'div',
-				{ className: active ? 'settings-menu active' : 'settings-menu', onClick: function onClick(e) {
-						return e.stopPropagation();
-					} },
-				_react2.default.createElement(_settingsCategory2.default, { categories: categories, saveCategories: saveCategories })
-			);
-		}
-	}]);
-
-	return SettingsMenu;
-}(_react.Component);
-
-exports.default = SettingsMenu;
-
-},{"./settings-category.js":212,"react":196}],214:[function(require,module,exports){
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-	value: true
-});
-
-var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-
-var _react = require('react');
-
-var _react2 = _interopRequireDefault(_react);
-
-var _settingsMenu = require('./settings-menu.js');
-
-var _settingsMenu2 = _interopRequireDefault(_settingsMenu);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-
-var Settings = function (_Component) {
-	_inherits(Settings, _Component);
-
-	function Settings(props) {
-		_classCallCheck(this, Settings);
-
-		var _this = _possibleConstructorReturn(this, (Settings.__proto__ || Object.getPrototypeOf(Settings)).call(this, props));
-
-		_this.state = { active: false };
-		return _this;
-	}
-
-	_createClass(Settings, [{
-		key: 'enterMenu',
-		value: function enterMenu(e) {
-			e.stopPropagation();
-			this.setState({ active: true });
-			window.addEventListener('click', this.exitMenu.bind(this));
-		}
-	}, {
-		key: 'exitMenu',
-		value: function exitMenu(e) {
-			e.stopPropagation();
-			this.setState({ active: false });
-			window.removeEventListener('click', this.exitMenu);
-		}
-	}, {
-		key: 'render',
-		value: function render() {
-			var active = this.state.active;
-			var _props = this.props;
-			var categories = _props.categories;
-			var saveCategories = _props.saveCategories;
-
-			return _react2.default.createElement(
-				'div',
-				{ className: 'settings' },
-				_react2.default.createElement('i', {
-					className: "menu-btn fa fa-gear " + (active ? 'active' : ''),
-					onClick: active ? this.exitMenu.bind(this) : this.enterMenu.bind(this) }),
-				_react2.default.createElement(_settingsMenu2.default, {
-					categories: categories,
-					active: active,
-					saveCategories: saveCategories })
-			);
-		}
-	}]);
-
-	return Settings;
-}(_react.Component);
-
-exports.default = Settings;
-
-},{"./settings-menu.js":213,"react":196}]},{},[207]);
+},{}]},{},[212]);
