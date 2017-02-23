@@ -31164,7 +31164,7 @@ var IdeaEdit = function (_Component) {
 				_react2.default.createElement(
 					'div',
 					{ className: 'top-section' },
-					_react2.default.createElement('input', { className: 'title-edit', type: 'text', value: title, onChange: this.titleChange.bind(this) }),
+					_react2.default.createElement('input', { className: 'title-edit', type: 'text', value: title, onChange: this.titleChange.bind(this), autoFocus: true }),
 					_react2.default.createElement(
 						'div',
 						{ className: 'buttons' },
