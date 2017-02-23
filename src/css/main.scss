@@ -19,6 +19,15 @@ body {
 	justify-content: center;
 }
 
+.create-btn {
+	@include circle-btn(#1ABC9C, 50px);
+	margin: 15px 0;
+	font-size: 1.2em;
+	i {
+		line-height: 20px;
+	}
+}
+
 @media(max-width: 500px) {
 	.jar {
 		width: 100%;
