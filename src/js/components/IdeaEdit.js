@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import CategoryInput from './input-category.js';
+import React, { Component, PropTypes } from 'react';
+import CategoryInput from './InputCategory';
 
-export default class IdeaForm extends Component {
+export default class IdeaEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		let {title, description, category} = props.data;
+		const {title, description, category} = props.data;
 		this.state = { title: title || "", description: description || "", category: category || ""};
 	}
 
@@ -20,34 +20,37 @@ export default class IdeaForm extends Component {
 	categoryChange(e) {
 		this.setState({category: e.target.value});
 	}
+
+	onDelete() {
+		this.props.onDelete(this.props.data.id);
+	}
 	
 	formSubmit() {
 		let {title, description, category} = this.state;
-		let {data, exitEdit} = this.props;
-		this.props.onSubmit({id: data.id, title, description, category, createdOn: data.createdOn});
+		let {data, exitEdit, onEdit} = this.props;
+		onEdit({id: data.id, title, description, category, createdOn: data.createdOn});
 		exitEdit()
 	}
 
 	render() {
-		let {title, description, category} = this.state;
-		let {data, categories, onDelete} = this.props;
-		let {color} = categories[category] || {color: '#333'};
-		let ideaStyle = {
-			borderLeftColor: color,
-		}
+		const {title, description, category} = this.state;
+		const {categories} = this.props;
+		const {color} = categories[category] || {color: '#333'};
+		const ideaStyle = {borderLeftColor: color};
+
 		return (
 			<div style={ideaStyle} className={`idea idea-edit cat-${category}`}>
 				<div className="top-section">
-					<input className="title-edit" type='text' value={title} onChange={e => this.setState({title: e.target.value})}/>
+					<input className="title-edit" type='text' value={title} onChange={this.titleChange.bind(this)}/>
 					<div className="buttons">
 						<i className="fa fa-check fa-fw fa-lg" onClick={this.formSubmit.bind(this)}></i>
-						<i className="fa fa-trash fa-fw fa-lg" onClick={() => onDelete(data.id)}></i>
+						<i className="fa fa-trash fa-fw fa-lg" onClick={this.onDelete.bind(this)}></i>
 					</div>
 				</div>
 				<textarea 
 					className="description-edit"
 					rows={5} value={description}
-					onChange={e => this.setState({description: e.target.value})}/>
+					onChange={this.descriptionChange.bind(this)}/>
 				<CategoryInput 
 					categories={Object.assign({}, categories, {'none': {value: 'none', label: 'None', color: '#333'}})}
 					onChange={this.categoryChange.bind(this)}
@@ -56,4 +59,17 @@ export default class IdeaForm extends Component {
 			</div>
 		)
 	}
+}
+
+IdeaEdit.propTypes = {
+	onDelete: PropTypes.func.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	exitEdit: PropTypes.func.isRequired,
+	categories: PropTypes.object.isRequired,
+	data: PropTypes.shape({
+		category: PropTypes.string,
+		title: PropTypes.string, 
+		description: PropTypes.string,
+		createOn: PropTypes.date,
+	}).isRequired
 }

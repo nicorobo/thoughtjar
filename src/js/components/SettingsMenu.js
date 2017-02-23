@@ -1,13 +1,19 @@
-import React, { Component } from 'react'; 
-import CategorySettings from './settings-category.js';
+import React, { PropTypes } from 'react'; 
+import CategorySettings from './SettingsCategory';
 
-export default class SettingsMenu extends Component {
-	render() {
-		let { categories, saveCategories, active } = this.props;
-		return (
-			<div className={active ? 'settings-menu active' : 'settings-menu'} onClick={e => e.stopPropagation()}>
-				<CategorySettings categories={categories} saveCategories={saveCategories} />
-			</div>
-		)
-	}
+function SettingsMenu(props) {
+	const { categories, saveCategories, active } = props;
+	return (
+		<div className={active ? 'settings-menu active' : 'settings-menu'} onClick={e => e.stopPropagation()}>
+			<CategorySettings categories={categories} saveCategories={saveCategories} />
+		</div>
+	)
 }
+
+SettingsMenu.propTypes = {
+	active: PropTypes.bool.isRequired,
+	categories: PropTypes.object.isRequired,
+	saveCategories: PropTypes.func.isRequired
+}
+
+export default SettingsMenu;

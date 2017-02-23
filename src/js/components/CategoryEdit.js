@@ -5,8 +5,7 @@ export default class CategoryEdit extends Component {
 
 	constructor(props) {
 		super(props);
-		let {label, color} = props.data;
-		this.state = {label, color};
+		this.state = {label: props.label, color: props.color};
 	}
 
 	onLabelChange(e) {
@@ -18,13 +17,12 @@ export default class CategoryEdit extends Component {
 	}
 
 	finishEdit() {
-		let {label, color} = this.state;
-		this.props.editCategory({label, color, value: this.props.data.value})
+		const {label, color} = this.state;
+		this.props.editCategory({label, color, value: this.props.value})
 	}
 
 	render() {
-		let {onDelete, data} = this.props;
-		let {label, value, color} = data;
+		const {onDelete, label, value, color} = this.props;
 		return (
 			<li style={{borderLeft: `5px solid ${this.state.color}`}}>
 				<div className="li-container">
@@ -42,4 +40,12 @@ export default class CategoryEdit extends Component {
 			</li>
 		);
 	}
+}
+
+CategoryEdit.propTypes = {
+	onDelete: PropTypes.func.isRequired,
+	editCategory: PropTypes.func.isRequired,
+	label: PropTypes.string,
+	value: PropTypes.string,
+	color: PropTypes.string
 }

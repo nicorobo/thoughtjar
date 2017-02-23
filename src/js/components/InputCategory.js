@@ -1,37 +1,42 @@
-import React, { Component } from 'react';
-export default class CategoryInput extends Component {
+import React, { Component, PropTypes } from 'react';
+
+export default class InputCategory extends Component {
+
 	render() {
-		let {value, onChange, categories, prefix} = this.props;
-		let options = getOptions(categories);
+		const {value, onChange, categories, prefix} = this.props;
 		return (
 			<div className="input-group category">
 				<span className="label">Category</span>
 				<div className="category-options">
-					{options.map(opt => (<span key={`${opt.value}-container`}>
-						<input 
-							type="radio"
-							key={prefix+opt.value}
-							id={prefix+opt.value}
-							value={opt.value}
-							name="category"
-							onChange={onChange}
-							checked={value === opt.value} />
-						<label 
-							style={{color: (value === opt.value ? opt.color : '')}}
-							key={`${prefix+opt.value}-label`}
-							htmlFor={prefix+opt.value}
-							class="category-label">{opt.label}</label>
-					</span>))}
+					{Object.keys(categories).map(i => {
+						const { value:val, label, color } = categories[i];
+						return (
+							<span key={`${val}-container`}>
+								<input 
+									type="radio"
+									key={prefix+val}
+									id={prefix+val}
+									value={val}
+									name="category"
+									onChange={onChange}
+									checked={value === val} />
+								<label 
+									style={{color: (value === val ? color : '')}}
+									key={`${prefix+val}-label`}
+									htmlFor={prefix+val}
+									className="category-label">{label}</label>
+							</span>
+						)
+					})}
 				</div>
 			</div>
 		)
 	}
 }
 
-function getOptions(cat) {
-	let arr = [];
-	for (var i in cat) {
-		arr.push(Object.assign({value: i}, cat[i]));
-	}
-	return arr;
+InputCategory.propTypes = {
+	value: PropTypes.string.isRequired,
+	categories: PropTypes.object.isRequired,
+	onChange: PropTypes.func.isRequired,
+	prefix: PropTypes.string.isRequired,
 }

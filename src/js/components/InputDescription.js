@@ -1,15 +1,20 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class DescriptionInput extends Component {
-	render() {
-		let {value, onChange} = this.props;
-		return (
-			<div className="input-group description">
-				<label>
-					<span>Description</span>
-					<textarea rows={5} value={value} onChange={onChange}/>
-				</label>
-			</div>
-		)
-	}
+function DescriptionInput (props) {
+	const { value, onChange } = props;
+	return (
+		<div className="input-group description">
+			<label>
+				<span>Description</span>
+				<textarea rows={5} value={value} onChange={onChange}/>
+			</label>
+		</div>
+	)
 }
+
+DescriptionInput.propTypes = {
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+}
+
+export default DescriptionInput

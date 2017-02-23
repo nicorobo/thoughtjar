@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { PropTypes } from 'react';
 
-export default class TitleInput extends Component {
+function TitleInput(props) {
 	render() {
-		let {value, onChange} = this.props;
+		const { value, onChange } = this.props;
 		return (
 			<div className="input-group title">
 				<label>
@@ -13,3 +13,10 @@ export default class TitleInput extends Component {
 		)
 	}
 }
+
+TitleInput.propTypes = {
+	value: PropTypes.string.isRequired,
+	onChange: PropTypes.func.isRequired,
+}
+
+export default TitleInput

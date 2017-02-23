@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
-import IdeaList from './idea/idea-list.js';
-import CreateIdeaButton from './forms/create-idea-button.js';
-import Settings from './settings/settings.js';
-import {thoughts, categories} from './initial.js';
+import Jar from './components/Jar';
+import CreateIdeaButton from './components/CreateIdeaButton';
+import Settings from './components/Settings';
+import {thoughts, categories} from './initial';
 let ideaID = null;
 
 class App extends Component {
@@ -35,7 +35,6 @@ class App extends Component {
 	}
 
 	editIdea(idea) {
-		console.log(idea);
 		this.saveIdeas(this.state.ideas.map(i => i.id !== idea.id ? i : idea));
 	}
 
@@ -63,7 +62,8 @@ class App extends Component {
 	}
 
 	render() {
-		let {ideas, editing, categories} = this.state;
+		const {ideas, editing, categories} = this.state;
+		console.log(editing);
 		return (
 			<div className="main-container">
 				<Settings
@@ -72,7 +72,7 @@ class App extends Component {
 				<CreateIdeaButton
 					onSubmit={this.createIdea.bind(this)}
 					toggleEdit={this.toggleEdit.bind(this)}/>
-				<IdeaList
+				<Jar
 					categories={categories}
 					ideas={ideas}
 					editing={editing}

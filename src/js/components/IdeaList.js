@@ -1,80 +1,54 @@
-import React, { Component } from 'react';
-import IdeaEdit from '../forms/idea-edit.js';
-import Idea from './idea.js';
-import CategoryInput from '../forms/input-category.js';
+import React, { Component, PropTypes } from 'react';
+import IdeaEdit from './IdeaEdit';
+import Idea from './Idea';
+import CategoryInput from './InputCategory';
 
 export default class IdeaList extends Component {
-	constructor(props) {
-		super(props);
-		this.state = {filter: 'all'};
-	}
-	changeFilter(e) {
-		this.setState({filter: e.target.value});
-	} 
+	
 	enterEdit(id) {
 		this.props.toggleEdit(id);
 	}
+	
 	exitEdit() {
 		this.props.toggleEdit(-1);
 	}
+	
 	render() {
-		let {ideas, onDelete, onEdit, editing, categories} = this.props;
-		let {filter} = this.state;
-		if(filter !== 'all') ideas = ideas.filter(idea => idea.category === filter);
-		if (ideas.length <= 0) {
-			return (
-				<div className='idea-list'>
-					<div className="idea-filter">
-						<CategoryInput 
-							prefix="filter-"
-							categories={Object.assign({all: {label: 'All', color: '#333', value: 'all'}}, categories)}
-							value={this.state.filter}
-							onChange={this.changeFilter.bind(this)} />
-					</div>
-					<div className="empty-msg">
-						There are currently no entries{filter === 'all' ? '' : <span> for <span className="cat" style={{color: categories[filter].color}}>{categories[filter].label}</span></span>}
-					</div>
-				</div>
-			)
-		} else {
-			return (
-				<div className='idea-list'>
-					<div className="idea-filter">
-						<CategoryInput 
-							prefix="filter-"
-							categories={Object.assign({all: {label: 'All', color: '#333', value: 'all'}}, categories)}
-							value={this.state.filter}
-							onChange={this.changeFilter.bind(this)} />
-					</div>
-					{ideas.map(idea => {
-						if(editing === idea.id){
-							return <IdeaEdit
-								key={idea.id}
-								data={idea}
-								categories={categories}
-								onSubmit={onEdit}
-								onDelete={onDelete}
-								exitEdit={this.exitEdit.bind(this)} />
-						}
-						else {
-							return <Idea
-								key={idea.id}
-								data={idea}
-								categories={categories}
-								onDelete={onDelete}
-								enterEdit={this.enterEdit.bind(this)} />
-						}
-					})}
-				</div>
-			)
-		}
+		const {ideas, filter, onDelete, onEdit, editing, categories} = this.props;
+		if(ideas.length < 1) return (
+			<div className='empty-msg'>
+				There are currently no entries{filter ==  'all'
+					? '' 
+					: <span> for <span className='cat' style={{color: categories[filter].color}}>{categories[filter].label}</span></span>
+				}
+			</div>
+		);
+		return (
+			<div className='idea-list'>
+				{ideas.map(idea => {
+					const commonProps = { 
+						key: idea.id,
+						data: idea,
+						categories,
+						onDelete,
+					}
+					return editing === idea.id 
+						? <IdeaEdit {...commonProps} onEdit={onEdit} exitEdit={this.exitEdit.bind(this)} />
+						: <Idea {...commonProps} enterEdit={this.enterEdit.bind(this)} />
+				})}
+			</div>
+		)
+
+
 	}
 }
 
-function getOptions(cat) {
-	let arr = [];
-	for (var i in cat) {
-		arr.push(Object.assign({value: i}, cat[i]));
-	}
-	return arr;
+IdeaList.propTypes = {
+	ideas: PropTypes.array.isRequired,
+	filter: PropTypes.string.isRequired,
+	categories: PropTypes.object.isRequired,
+	editing: PropTypes.number.isRequired,
+	onEdit: PropTypes.func.isRequired,
+	onDelete: PropTypes.func.isRequired,
+	toggleEdit: PropTypes.func.isRequired,
 }
