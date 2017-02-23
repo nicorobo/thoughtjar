@@ -4,6 +4,7 @@ import Jar from './components/Jar';
 import CreateIdeaButton from './components/CreateIdeaButton';
 import Settings from './components/Settings';
 import {thoughts, categories} from './initial';
+import '../css/main.scss';
 let ideaID = null;
 
 class App extends Component {
