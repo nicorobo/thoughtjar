@@ -17,7 +17,7 @@ export default class IdeaList extends Component {
 		const {ideas, filter, onDelete, onEdit, editing, categories} = this.props;
 		if(ideas.length < 1) return (
 			<div className='empty-msg'>
-				There are currently no entries{filter ==  'all'
+				There are currently no entries{filter ===  ''
 					? '' 
 					: <span> for <span className='cat' style={{color: categories[filter].color}}>{categories[filter].label}</span></span>
 				}
