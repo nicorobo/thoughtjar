@@ -52,7 +52,7 @@ export default class IdeaEdit extends Component {
 					rows={5} value={description}
 					onChange={this.descriptionChange.bind(this)}/>
 				<CategoryInput 
-					categories={Object.assign({}, categories, {'none': {value: 'none', label: 'None', color: '#333'}})}
+					categories={Object.assign({}, categories, {'none': {value: '', label: 'None', color: '#333'}})}
 					onChange={this.categoryChange.bind(this)}
 					prefix="edit-"
 					value={category} />

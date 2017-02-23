@@ -14,7 +14,7 @@ export default class Idea extends Component {
 
 	render() {
 		const { data, categories } = this.props;
-		const { color, label } = categories[data.category] || {color: 'black', label: 'none'};
+		const { color, label } = categories[data.category] || {color: '#333', label: ''};
 		const ideaStyle = { borderLeftColor: color }
 		const labelStyle = { color: color }
 

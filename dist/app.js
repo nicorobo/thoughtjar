@@ -30999,7 +30999,7 @@ var Idea = function (_Component) {
 			var data = _props.data;
 			var categories = _props.categories;
 
-			var _ref = categories[data.category] || { color: 'black', label: 'none' };
+			var _ref = categories[data.category] || { color: '#333', label: '' };
 
 			var color = _ref.color;
 			var label = _ref.label;
@@ -31177,7 +31177,7 @@ var IdeaEdit = function (_Component) {
 					rows: 5, value: description,
 					onChange: this.descriptionChange.bind(this) }),
 				_react2.default.createElement(_InputCategory2.default, {
-					categories: Object.assign({}, categories, { 'none': { value: 'none', label: 'None', color: '#333' } }),
+					categories: Object.assign({}, categories, { 'none': { value: '', label: 'None', color: '#333' } }),
 					onChange: this.categoryChange.bind(this),
 					prefix: 'edit-',
 					value: category })
