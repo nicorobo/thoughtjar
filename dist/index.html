@@ -20,13 +20,14 @@
 <body>
 	<div id="app"></div>
 	<script src="app.js"></script>
-	<script>
+	<script type="text/javascript">
 		if ('serviceWorker' in navigator) {
 			// Delay registration until after the page has loaded, to ensure that
 			// our precaching requests don't degrade the first visit experience.
 			// See https://developers.google.com/web/fundamentals/instant-and-offline/service-worker/registration
 			window.addEventListener('load', function() {
-				navigator.serviceWorker.register('./sw.js');
+				var swURL = "./sw.js"
+				navigator.serviceWorker.register(swURL);
 			});
 		}
 	</script>
