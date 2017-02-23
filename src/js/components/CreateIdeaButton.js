@@ -3,8 +3,8 @@ import React, { Component, PropTypes } from 'react';
 export default class CreateIdeaButton extends Component {
 
 	createIdea() {
-		const { onSubmit, toggleEdit } = this.props;
-		const id = onSubmit('', '', 'none');
+		const { onSubmit, toggleEdit, filter } = this.props;
+		const id = onSubmit('', '', filter);
 		toggleEdit(id);
 	}
 
@@ -15,5 +15,6 @@ export default class CreateIdeaButton extends Component {
 
 CreateIdeaButton.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
-	toggleEdit: PropTypes.func.isRequired
+	toggleEdit: PropTypes.func.isRequired,
+	filter: PropTypes.string.isRequired,
 }

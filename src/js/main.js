@@ -10,7 +10,15 @@ class App extends Component {
 
 	constructor(props) {
 		super(props);
-		this.state = {ideas: thoughts, categories: categories, editing: -1};
+		this.state = {ideas: thoughts, categories: categories, editing: -1, filter: ""};
+	}
+
+	toggleEdit(id) {
+		this.setState({editing: id < 0 ? -1 : id});
+	}
+
+	toggleFilter(e) {
+		this.setState({filter: (e.target.value || "")});
 	}
 
 	saveIdeas(ideas) {
@@ -38,10 +46,6 @@ class App extends Component {
 		this.saveIdeas(this.state.ideas.map(i => i.id !== idea.id ? i : idea));
 	}
 
-	toggleEdit(id) {
-		this.setState({editing: id < 0 ? -1 : id});
-	}
-
 	populateStorage() {
 		window.localStorage.setItem('ideas', JSON.stringify(this.state.ideas))
 		window.localStorage.setItem('categories', JSON.stringify(this.state.categories))
@@ -62,8 +66,7 @@ class App extends Component {
 	}
 
 	render() {
-		const {ideas, editing, categories} = this.state;
-		console.log(editing);
+		const {ideas, categories, editing, filter} = this.state;
 		return (
 			<div className="main-container">
 				<Settings
@@ -71,12 +74,15 @@ class App extends Component {
 					categories={categories} />
 				<CreateIdeaButton
 					onSubmit={this.createIdea.bind(this)}
-					toggleEdit={this.toggleEdit.bind(this)}/>
+					toggleEdit={this.toggleEdit.bind(this)}
+					filter={filter} />
 				<Jar
 					categories={categories}
 					ideas={ideas}
+					filter={filter}
 					editing={editing}
 					toggleEdit={this.toggleEdit.bind(this)}
+					toggleFilter={this.toggleFilter.bind(this)}
 					onDelete={this.deleteIdea.bind(this)}
 					onEdit={this.editIdea.bind(this)} />
 			</div>

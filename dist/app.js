@@ -30916,8 +30916,9 @@ var CreateIdeaButton = function (_Component) {
 			var _props = this.props;
 			var onSubmit = _props.onSubmit;
 			var toggleEdit = _props.toggleEdit;
+			var filter = _props.filter;
 
-			var id = onSubmit('', '', 'none');
+			var id = onSubmit('', '', filter);
 			toggleEdit(id);
 		}
 	}, {
@@ -30939,7 +30940,8 @@ exports.default = CreateIdeaButton;
 
 CreateIdeaButton.propTypes = {
 	onSubmit: _react.PropTypes.func.isRequired,
-	toggleEdit: _react.PropTypes.func.isRequired
+	toggleEdit: _react.PropTypes.func.isRequired,
+	filter: _react.PropTypes.string.isRequired
 };
 
 },{"react":196}],203:[function(require,module,exports){
@@ -31446,29 +31448,22 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 var Jar = function (_Component) {
 	_inherits(Jar, _Component);
 
-	function Jar(props) {
+	function Jar() {
 		_classCallCheck(this, Jar);
 
-		var _this = _possibleConstructorReturn(this, (Jar.__proto__ || Object.getPrototypeOf(Jar)).call(this, props));
-
-		_this.state = { filter: 'all' };
-		return _this;
+		return _possibleConstructorReturn(this, (Jar.__proto__ || Object.getPrototypeOf(Jar)).apply(this, arguments));
 	}
 
 	_createClass(Jar, [{
-		key: 'changeFilter',
-		value: function changeFilter(e) {
-			this.setState({ filter: e.target.value });
-		}
-	}, {
 		key: 'render',
 		value: function render() {
 			var _props = this.props;
 			var ideas = _props.ideas;
 			var categories = _props.categories;
-			var filter = this.state.filter;
+			var filter = _props.filter;
+			var toggleFilter = _props.toggleFilter;
 
-			if (filter !== 'all') ideas = ideas.filter(function (idea) {
+			if (filter) ideas = ideas.filter(function (idea) {
 				return idea.category === filter;
 			});
 			return _react2.default.createElement(
@@ -31479,9 +31474,9 @@ var Jar = function (_Component) {
 					{ className: 'idea-filter' },
 					_react2.default.createElement(_InputCategory2.default, {
 						prefix: 'filter-',
-						categories: Object.assign({ all: { label: 'All', color: '#333', value: 'all' } }, categories),
-						value: this.state.filter,
-						onChange: this.changeFilter.bind(this) })
+						categories: Object.assign({ all: { label: 'All', color: '#333', value: "" } }, categories),
+						value: filter,
+						onChange: toggleFilter })
 				),
 				_react2.default.createElement(_IdeaList2.default, _extends({}, this.props, {
 					ideas: ideas,
@@ -31499,8 +31494,10 @@ exports.default = Jar;
 Jar.propTypes = {
 	categories: _react.PropTypes.object.isRequired,
 	ideas: _react.PropTypes.array.isRequired,
+	filter: _react.PropTypes.string,
 	editing: _react.PropTypes.number.isRequired,
 	toggleEdit: _react.PropTypes.func.isRequired,
+	toggleFilter: _react.PropTypes.func.isRequired,
 	onDelete: _react.PropTypes.func.isRequired,
 	onEdit: _react.PropTypes.func.isRequired
 };
@@ -31881,11 +31878,21 @@ var App = function (_Component) {
 
 		var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 
-		_this.state = { ideas: _initial.thoughts, categories: _initial.categories, editing: -1 };
+		_this.state = { ideas: _initial.thoughts, categories: _initial.categories, editing: -1, filter: "" };
 		return _this;
 	}
 
 	_createClass(App, [{
+		key: 'toggleEdit',
+		value: function toggleEdit(id) {
+			this.setState({ editing: id < 0 ? -1 : id });
+		}
+	}, {
+		key: 'toggleFilter',
+		value: function toggleFilter(e) {
+			this.setState({ filter: e.target.value || "" });
+		}
+	}, {
 		key: 'saveIdeas',
 		value: function saveIdeas(ideas) {
 			this.setState({ ideas: ideas });
@@ -31920,11 +31927,6 @@ var App = function (_Component) {
 			}));
 		}
 	}, {
-		key: 'toggleEdit',
-		value: function toggleEdit(id) {
-			this.setState({ editing: id < 0 ? -1 : id });
-		}
-	}, {
 		key: 'populateStorage',
 		value: function populateStorage() {
 			window.localStorage.setItem('ideas', JSON.stringify(this.state.ideas));
@@ -31950,10 +31952,10 @@ var App = function (_Component) {
 		value: function render() {
 			var _state = this.state;
 			var ideas = _state.ideas;
-			var editing = _state.editing;
 			var categories = _state.categories;
+			var editing = _state.editing;
+			var filter = _state.filter;
 
-			console.log(editing);
 			return _react2.default.createElement(
 				'div',
 				{ className: 'main-container' },
@@ -31962,12 +31964,15 @@ var App = function (_Component) {
 					categories: categories }),
 				_react2.default.createElement(_CreateIdeaButton2.default, {
 					onSubmit: this.createIdea.bind(this),
-					toggleEdit: this.toggleEdit.bind(this) }),
+					toggleEdit: this.toggleEdit.bind(this),
+					filter: filter }),
 				_react2.default.createElement(_Jar2.default, {
 					categories: categories,
 					ideas: ideas,
+					filter: filter,
 					editing: editing,
 					toggleEdit: this.toggleEdit.bind(this),
+					toggleFilter: this.toggleFilter.bind(this),
 					onDelete: this.deleteIdea.bind(this),
 					onEdit: this.editIdea.bind(this) })
 			);
