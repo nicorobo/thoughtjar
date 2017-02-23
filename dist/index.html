@@ -21,6 +21,16 @@
 	<div id="app"></div>
 	<script src="app.js"></script>
 	<script>
+		if ('serviceWorker' in navigator) {
+			// Delay registration until after the page has loaded, to ensure that
+			// our precaching requests don't degrade the first visit experience.
+			// See https://developers.google.com/web/fundamentals/instant-and-offline/service-worker/registration
+			window.addEventListener('load', function() {
+				navigator.serviceWorker.register('/service-worker.js');
+			});
+		}
+	</script>
+	<script>
 	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
 	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
 	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
