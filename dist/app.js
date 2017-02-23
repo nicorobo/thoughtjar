@@ -31831,7 +31831,7 @@ var thoughts = exports.thoughts = [{
 }, {
 	id: 4,
 	title: "Writing Thoughts",
-	description: "Thoughtjar uses a small subset of features from Markdown, a text-to-HTML conversion tool that makes writing for the web easier!\n\n *Line Break:* To create a line break, hit enter twice.\n\n*Bold:* To make a section of text bold, wrap it in double asterisks. \\*\\*I'm bold!\\*\\* becomes **I'm bold!**.\n\n*Emphasis:* To emphasize a section of text, make it italic by wrapping it in single asterisks. \\*I'm emphasized!\\* becomes *I'm emphasized!*\n\n*Links:* To create a hyperlink from a section of text, wrap the text in brackets and follow it with the URL wrapped in parentheses. \\[Visit meadowlab.io](https://meadowlab.io) becomes [Visit meadowlab.io](http://meadowlab.io).",
+	description: "Thoughtjar uses a small subset of features from Markdown, a text-to-HTML conversion tool that makes writing for the web easier!\n\n *Line Break:* To create a line break, hit enter twice.\n\n*Bold:* To make a section of text bold, wrap it in double asterisks. \\*\\*I'm bold!\\*\\* becomes **I'm bold!**.\n\n*Emphasis:* To emphasize a section of text, make it italic by wrapping it in single asterisks. \\*I'm emphasized!\\* becomes *I'm emphasized!*\n\n*Links:* To create a hyperlink from a section of text, wrap the text in brackets and follow it with the URL wrapped in parentheses. \\[Visit meadowlab.io](http://meadowlab.io) becomes [Visit meadowlab.io](http://meadowlab.io).",
 	category: "cat1468028016486",
 	createdOn: Date.now() - 4
 }, {
