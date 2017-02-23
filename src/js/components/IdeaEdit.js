@@ -33,8 +33,8 @@ export default class IdeaEdit extends Component {
 	}
 
 	render() {
-		const {title, description, category} = this.state;
-		const {categories} = this.props;
+		const { title, description, category } = this.state;
+		const { categories } = this.props;
 		const {color} = categories[category] || {color: '#333'};
 		const ideaStyle = {borderLeftColor: color};
 

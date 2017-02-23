@@ -19,7 +19,7 @@ gulp.task('styles', ()=> {
 // This task bundles our scripts using browserify.
 gulp.task('scripts', ()=> {
 	return browserify('./src/js/main.js')
-		.transform(babel, {presets: ["react", "es2015"]})
+		.transform(babel)
 		.bundle()
 		.on('error', handleError)
 		.pipe(source('app.js'))
@@ -27,6 +27,7 @@ gulp.task('scripts', ()=> {
 });
 
 function handleError(err) {
+	console.log(err);
 	console.log(chalk.red(`Error file ${err.filename}`));
 	console.log(err.codeFrame);
 	this.emit('end');
