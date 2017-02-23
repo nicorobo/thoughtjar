@@ -26,7 +26,8 @@
 			// our precaching requests don't degrade the first visit experience.
 			// See https://developers.google.com/web/fundamentals/instant-and-offline/service-worker/registration
 			window.addEventListener('load', function() {
-				navigator.serviceWorker.register('./sw.js');
+				var swURL = "./sw.js"
+				navigator.serviceWorker.register(swURL);
 			});
 		}
 	</script>
