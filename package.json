@@ -26,6 +26,7 @@
     "gulp": "^3.9.1",
     "gulp-sass": "^2.3.2",
     "sw-precache": "^5.0.0",
+    "sw-toolbox": "^3.6.0",
     "vinyl-buffer": "^1.0.0",
     "vinyl-source-stream": "^1.1.0"
   }
