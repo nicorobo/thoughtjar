@@ -30880,7 +30880,7 @@ ColorPicker.propTypes = {
 
 exports.default = ColorPicker;
 
-},{"../palette":213,"react":196}],202:[function(require,module,exports){
+},{"../palette":214,"react":196}],202:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31590,7 +31590,7 @@ Settings.propTypes = {
 	saveCategories: _react.PropTypes.func
 };
 
-},{"./SettingsMenu":210,"react":196}],209:[function(require,module,exports){
+},{"./SettingsMenu":211,"react":196}],209:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31741,7 +31741,49 @@ CategorySettings.propTypes = {
 	saveCategories: _react.PropTypes.func
 };
 
-},{"../palette":213,"./CategoryEdit":199,"./CategoryItem":200,"react":196}],210:[function(require,module,exports){
+},{"../palette":214,"./CategoryEdit":199,"./CategoryItem":200,"react":196}],210:[function(require,module,exports){
+"use strict";
+
+Object.defineProperty(exports, "__esModule", {
+	value: true
+});
+
+var _react = require("react");
+
+var _react2 = _interopRequireDefault(_react);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function SettingsFooter(props) {
+	return _react2.default.createElement(
+		"footer",
+		{ className: "site-footer" },
+		_react2.default.createElement(
+			"p",
+			null,
+			"crafted with ",
+			_react2.default.createElement(
+				"span",
+				{ className: "footer-heart" },
+				"\u2665"
+			),
+			" by ",
+			_react2.default.createElement(
+				"a",
+				{ href: "http://meadowlab.io", target: "_blank", className: "footer-brand" },
+				"meadow",
+				_react2.default.createElement(
+					"span",
+					{ className: "footer-brand-emphasis" },
+					"lab"
+				)
+			)
+		)
+	);
+}
+exports.default = SettingsFooter;
+
+},{"react":196}],211:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -31756,6 +31798,10 @@ var _SettingsCategory = require('./SettingsCategory');
 
 var _SettingsCategory2 = _interopRequireDefault(_SettingsCategory);
 
+var _SettingsFooter = require('./SettingsFooter');
+
+var _SettingsFooter2 = _interopRequireDefault(_SettingsFooter);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function SettingsMenu(props) {
@@ -31768,7 +31814,8 @@ function SettingsMenu(props) {
 		{ className: active ? 'settings-menu active' : 'settings-menu', onClick: function onClick(e) {
 				return e.stopPropagation();
 			} },
-		_react2.default.createElement(_SettingsCategory2.default, { categories: categories, saveCategories: saveCategories })
+		_react2.default.createElement(_SettingsCategory2.default, { categories: categories, saveCategories: saveCategories }),
+		_react2.default.createElement(_SettingsFooter2.default, null)
 	);
 }
 
@@ -31780,7 +31827,7 @@ SettingsMenu.propTypes = {
 
 exports.default = SettingsMenu;
 
-},{"./SettingsCategory":209,"react":196}],211:[function(require,module,exports){
+},{"./SettingsCategory":209,"./SettingsFooter":210,"react":196}],212:[function(require,module,exports){
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -31842,7 +31889,7 @@ var thoughts = exports.thoughts = [{
 	createdOn: Date.now() - 5
 }];
 
-},{}],212:[function(require,module,exports){
+},{}],213:[function(require,module,exports){
 'use strict';
 
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
@@ -31991,7 +32038,7 @@ var App = function (_Component) {
 
 (0, _reactDom.render)(_react2.default.createElement(App, null), document.getElementById('app'));
 
-},{"./components/CreateIdeaButton":202,"./components/Jar":207,"./components/Settings":208,"./initial":211,"react":196,"react-dom":52}],213:[function(require,module,exports){
+},{"./components/CreateIdeaButton":202,"./components/Jar":207,"./components/Settings":208,"./initial":212,"react":196,"react-dom":52}],214:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -32002,4 +32049,4 @@ Object.defineProperty(exports, "__esModule", {
 var palette = ['#1ABC9C', '#16A085', '#2ECC71', '#27AE60', '#3498DB', '#2980B9', '#9B59B6', '#8E44AD', '#34495E', '#2C3E50', '#F1C40F', '#F39C12', '#E67E22', '#D35400', '#E74C3C', '#C0392B', '#ECF0F1', '#BDC3C7', '#95A5A6', '#7F8C8D'];
 exports.default = palette;
 
-},{}]},{},[212]);
+},{}]},{},[213]);

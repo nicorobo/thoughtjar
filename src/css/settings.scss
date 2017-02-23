@@ -15,6 +15,8 @@
 	}
 }
 .settings-menu {
+	display: flex;
+	flex-direction: column;
 	height: 500px;
 	width: 300px;
 	overflow: auto;
@@ -38,6 +40,7 @@
 	}
 
 	.settings-category {
+		flex: 1;
 		.title {
 			text-align: center;
 			font-weight: 300;

@@ -1,0 +1,24 @@
+.site-footer {
+	padding: 1rem 0 0.3rem 0;
+	text-align: center;
+	font-size: 0.9em;
+	font-weight: lighter;
+	font-style: italic;
+}
+
+.footer-heart {
+	font-style: normal;
+	color: #cb6773;
+}
+.footer-brand {
+	color: #333;
+	text-decoration: none;
+	&:hover {
+		text-decoration: underline;
+	}
+}
+
+.footer-brand-emphasis {
+	color: #1ABC9C;
+	font-weight: bold;
+}
