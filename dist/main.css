@@ -321,7 +321,7 @@
 body {
   font-family: 'Lato', sans-serif; }
 
-.idea-list {
+.jar {
   width: 500px; }
 
 .main-container {
@@ -331,5 +331,5 @@ body {
   justify-content: center; }
 
 @media (max-width: 500px) {
-  .idea-list {
+  .jar {
     width: 100%; } }
