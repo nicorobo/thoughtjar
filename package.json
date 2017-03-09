@@ -7,7 +7,7 @@
     "deploy": "gh-pages -d dist",
     "build": "gulp",
     "open": "live-server dist",
-    "pack": "webpack --watch"
+    "pack": "webpack -p"
   },
   "author": "Nick Roberts",
   "license": "ISC",

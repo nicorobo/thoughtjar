@@ -3,14 +3,14 @@ var config = {
 	entry: './src/js/main.js',
 	output: {
 		filename: 'bundle.js',
-		path: __dirname + '/src',
+		path: __dirname + '/dist',
 	},
 	module: {
 		rules: [
 			{
 				test: /\.jsx?$/,
 				use: ['babel-loader'],
-				include: __dirname + '/src/js',
+				exclude: /node_modules/,
 			},
 			{
 				test: /\.css$/,

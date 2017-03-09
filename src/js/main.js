@@ -87,7 +87,7 @@ class App extends Component {
 					onDelete={this.deleteIdea.bind(this)}
 					onEdit={this.editIdea.bind(this)} />
 			</div>
-		)
+		);
 	}
 }
 
